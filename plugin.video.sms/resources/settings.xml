@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+    <setting id="sms_url" type="text" label="URL" default="http://"/>
+    <setting id="username" type="text" label="Username" default=""/>
+    <setting id="password" type="text" option="hidden" label="Password" default=""/>
+    <setting id="videoquality" type="labelenum" label="Video Quality" values="0 (240p)|1 (360p)|2 (480p)|3 (720p)|4 (1080p)" default="2 (480p)"/>
+    <setting id="maxsamplerate" type="labelenum" label="Max Sample Rate (Hz)" values="44100|48000|96000|192000" default="48000"/>
+    <setting id="multichannel" type="bool" label="Enable Multichannel Audio" default="false"/>
+    <setting id="directplay" type="bool" label="Enable Direct Play On Local Network" default="false"/>
+</settings>
