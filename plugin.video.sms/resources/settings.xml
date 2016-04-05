@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <settings>
-    <setting id="sms_url" type="text" label="URL" default="http://"/>
+    <setting id="sms_url" type="text" label="Server Address" default="http://"/>
+    <setting id="alt_url" type="text" label="Alternative Address (Optional)" default=""/>
     <setting id="username" type="text" label="Username" default=""/>
     <setting id="password" type="text" option="hidden" label="Password" default=""/>
     <setting id="videoquality" type="labelenum" label="Video Quality" values="0 (240p)|1 (360p)|2 (480p)|3 (720p)|4 (1080p)" default="2 (480p)"/>

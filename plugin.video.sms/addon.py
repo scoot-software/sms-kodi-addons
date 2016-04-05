@@ -51,7 +51,7 @@ def buildUrl(query):
 
 def mainMenu():
 	# Media Browser
-	url = buildUrl({'mode': 'media_browser'})
+	url = buildUrl({'url': sms_client.serverUrl, 'mode': 'media_browser'})
         item = xbmcgui.ListItem('Media Browser',iconImage='DefaultFolder.png')
         xbmcplugin.addDirectoryItem(handle=addonHandle,
                 		    url=url,
@@ -59,7 +59,7 @@ def mainMenu():
                 		    isFolder=True)
 
 	# Recently Played
-	url = buildUrl({'mode': 'recently_played'})
+	url = buildUrl({'url': sms_client.serverUrl, 'mode': 'recently_played'})
         item = xbmcgui.ListItem('Recently Played',iconImage='DefaultFolder.png')
         xbmcplugin.addDirectoryItem(handle=addonHandle,
                 		    url=url,
@@ -67,7 +67,7 @@ def mainMenu():
                 		    isFolder=True)
 
 	# Recently Added
-	url = buildUrl({'mode': 'recently_added'})
+	url = buildUrl({'url': sms_client.serverUrl, 'mode': 'recently_added'})
         item = xbmcgui.ListItem('Recently Added',iconImage='DefaultFolder.png')
         xbmcplugin.addDirectoryItem(handle=addonHandle,
                 		    url=url,
@@ -82,7 +82,7 @@ def mediaFolders():
 
     	for folder in folders:
             	if folder['type'] == 1:
-            		url = buildUrl({'mode': 'media_folder','id': folder['id']})
+            		url = buildUrl({'url': sms_client.serverUrl, 'mode': 'media_folder','id': folder['id']})
             		item = xbmcgui.ListItem(folder['name'],iconImage='DefaultFolder.png')
             		xbmcplugin.addDirectoryItem(
                 		handle=addonHandle,
@@ -123,7 +123,7 @@ def parseMediaElements(elements, altTitle):
 				
 
         	if elementType == 1:
-	    		url = buildUrl({'mode': 'video_element','id': element['id']})
+	    		url = buildUrl({'url': sms_client.serverUrl, 'mode': 'video_element','id': element['id']})
 			item = xbmcgui.ListItem(title, iconImage='DefaultVideo.png')
 			item.setProperty("IsPlayable", "true")
 			item.setInfo('video', { 'title': element['title'] })
@@ -163,7 +163,7 @@ def parseMediaElements(elements, altTitle):
 		    	directoryType = element['directoryType']
 
 			if directoryType >= 1:
-				url = buildUrl({'mode': 'directory_element','id': element['id']})
+				url = buildUrl({'url': sms_client.serverUrl, 'mode': 'directory_element','id': element['id']})
 				item = xbmcgui.ListItem(title,iconImage='DefaultFolder.png')
 				item.setProperty("IsPlayable", "false")
 					
@@ -249,6 +249,7 @@ def playVideo():
 if __name__ == '__main__':
     	# Settings
 	sms_settings = sms.client.Settings(addon.getSetting('sms_url'), \
+				      addon.getSetting('alt_url'), \
 				      addon.getSetting('username'), \
 				      addon.getSetting('password'), \
 				      addon.getSetting('videoquality')[:1], \
@@ -256,8 +257,20 @@ if __name__ == '__main__':
 				      addon.getSetting('multichannel'), \
 				      addon.getSetting('directplay'))
 
+	# XBMC Plugin URLs
+    	addonUrl = sys.argv[0]
+    	addonHandle = int(sys.argv[1])
+    	arguments = urlparse.parse_qs(sys.argv[2][1:])
+
+    	# Retrieve URL
+	sms_url = None
+	url = arguments.get('url', None)
+	
+	if url:
+		sms_url = url[0]
+
     	# REST Client
-    	sms_client = sms.client.RESTClient(sms_settings)
+    	sms_client = sms.client.RESTClient(sms_settings, sms_url)
 
     	# Test connection with server
     	if not sms_client.testConnection():
@@ -268,11 +281,6 @@ if __name__ == '__main__':
 	    		sys.exit("Settings incorrect.")
 		else:
 	    		sys.exit("Settings incorrect.")
-
-    	# XBMC Plugin URLs
-    	addonUrl = sys.argv[0]
-    	addonHandle = int(sys.argv[1])
-    	arguments = urlparse.parse_qs(sys.argv[2][1:])
 
     	# Addon Routing
     	mode = arguments.get('mode', None)
