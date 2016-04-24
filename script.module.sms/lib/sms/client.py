@@ -162,7 +162,8 @@ class RESTClient(object):
 			url += '&direct=' + self.settings.directPlay
 
 	    		response = requests.get(url, auth=(self.settings.username, self.settings.password))
-	    		return response.text
+	    		data = response.json()
+	    		return data
 		except requests.exceptions.RequestException:
 	    		xbmcgui.Dialog().notification('mediaStreamer', 'There was an error initialising the stream.', xbmcgui.NOTIFICATION_ERROR, 5000)
 

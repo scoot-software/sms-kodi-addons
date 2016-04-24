@@ -200,13 +200,14 @@ def parseMediaElements(elements, altTitle):
 
 def playVideo():
     	id = arguments.get('id', None)[0]
-    	job = sms_client.initialiseStream(id, 1)
+    	profile = sms_client.initialiseStream(id, 1)
     	element = sms_client.getMediaElement(id)
-    	url = sms_settings.serverUrl + '/stream/' + str(job)
+    	url = sms_settings.serverUrl + '/stream/' + str(profile['id'])
 
     	item = xbmcgui.ListItem(element['title'], path=url, iconImage="DefaultVideo.png")
 	item.setArt({ 'thumb': sms_settings.serverUrl + '/image/' + str(element['id']) + '/cover/500', 'fanart' : sms_settings.serverUrl + '/image/' + str(element['id']) + '/fanart/' + str(xbmcgui.Window().getWidth()) })
     	item.setInfo('video', { 'title': element['title'] })
+	item.setMimeType(profile['mimeType'])
 
     	if 'rating' in element:
         	item.setInfo('video', { 'rating': element['rating'] })
@@ -238,7 +239,7 @@ def playVideo():
 	sms.player.monitorPlayback(url)
 
     	# End job
-    	sms_client.endJob(job)
+    	sms_client.endJob(profile['id'])
 
     	return
 

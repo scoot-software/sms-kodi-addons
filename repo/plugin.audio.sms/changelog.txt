@@ -1,3 +1,8 @@
+[B]Version 0.0.2[/B]
+
+- Support multiple server addresses (e.g. local and remote)
+- Handle transcode profiles when initialising a stream
+
 [B]Version 0.0.1[/B]
 
 - Initial release

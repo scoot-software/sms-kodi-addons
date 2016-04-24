@@ -186,12 +186,13 @@ def parseMediaElements(elements, altTitle):
 
 def playAudio():
     	id = arguments.get('id', None)[0]
-    	job = sms_client.initialiseStream(id, 0)
+    	profile = sms_client.initialiseStream(id, 0)
     	element = sms_client.getMediaElement(id)
-    	url = sms_settings.serverUrl + '/stream/' + str(job)
+    	url = sms_settings.serverUrl + '/stream/' + str(profile['id'])
     
     	item = xbmcgui.ListItem(element['title'], path=url, iconImage="DefaultAudio.png")
     	item.setInfo('music', { 'title': element['title'] })
+	item.setMimeType(profile['mimeType'])
 	item.setArt({ 'thumb': sms_settings.serverUrl + '/image/' + str(id) + '/cover/500', 'fanart' : sms_settings.serverUrl + '/image/' + str(element['id']) + '/fanart/' + str(xbmcgui.Window().getWidth()) })
 	    
     	if 'trackNumber' in element:
@@ -224,7 +225,7 @@ def playAudio():
 	sms.player.monitorPlayback(url)
 
     	# End job
-    	sms_client.endJob(job)
+    	sms_client.endJob(profile['id'])
 
     	return
 
