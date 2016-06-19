@@ -51,7 +51,7 @@ def buildUrl(query):
 
 def mainMenu():
 	# Media Browser
-	url = buildUrl({'url': sms_client.serverUrl, 'mode': 'media_browser'})
+	url = buildUrl({'url': sms_client.settings.serverUrl, 'mode': 'media_browser'})
         item = xbmcgui.ListItem('Media Browser',iconImage='DefaultFolder.png')
         xbmcplugin.addDirectoryItem(handle=addonHandle,
                 		    url=url,
@@ -59,7 +59,7 @@ def mainMenu():
                 		    isFolder=True)
 
 	# Recently Played
-	url = buildUrl({'url': sms_client.serverUrl, 'mode': 'recently_played'})
+	url = buildUrl({'url': sms_client.settings.serverUrl, 'mode': 'recently_played'})
         item = xbmcgui.ListItem('Recently Played',iconImage='DefaultFolder.png')
         xbmcplugin.addDirectoryItem(handle=addonHandle,
                 		    url=url,
@@ -67,7 +67,7 @@ def mainMenu():
                 		    isFolder=True)
 
 	# Recently Added
-	url = buildUrl({'url': sms_client.serverUrl, 'mode': 'recently_added'})
+	url = buildUrl({'url': sms_client.settings.serverUrl, 'mode': 'recently_added'})
         item = xbmcgui.ListItem('Recently Added',iconImage='DefaultFolder.png')
         xbmcplugin.addDirectoryItem(handle=addonHandle,
                 		    url=url,
@@ -82,7 +82,7 @@ def mediaFolders():
 
     	for folder in folders:
 		if folder['type'] == 0:
-            		url = buildUrl({'url': sms_client.serverUrl, 'mode': 'media_folder','id': folder['id']})
+            		url = buildUrl({'url': sms_client.settings.serverUrl, 'mode': 'media_folder','id': folder['id']})
             		item = xbmcgui.ListItem(folder['name'],iconImage='DefaultFolder.png')
             		xbmcplugin.addDirectoryItem(
                 		handle=addonHandle,
@@ -121,7 +121,7 @@ def parseMediaElements(elements, altTitle):
 			title = element['artist'] + ' - ' + element['title']
 
         	if elementType == 0:
-	    		url = buildUrl({'url': sms_client.serverUrl, 'mode': 'audio_element','id': element['id']})
+	    		url = buildUrl({'url': sms_client.settings.serverUrl, 'mode': 'audio_element','id': element['id']})
 	    		item = xbmcgui.ListItem(title, iconImage='DefaultAudio.png')
 			item.setProperty("IsPlayable", "true")
 	    		item.setInfo('music', { 'title': element['title'] })
@@ -163,7 +163,7 @@ def parseMediaElements(elements, altTitle):
 			if directoryType == 0 or directoryType >= 2:
 				item = xbmcgui.ListItem(title, iconImage='DefaultFolder.png')
 				item.setProperty("IsPlayable", "false")
-				url = buildUrl({'url': sms_client.serverUrl, 'mode': 'directory_element','id': element['id']})
+				url = buildUrl({'url': sms_client.settings.serverUrl, 'mode': 'directory_element','id': element['id']})
 
 				if directoryType == 0:
 					item.setInfo('music', { 'title': element['title'] })
@@ -236,7 +236,6 @@ def playAudio():
 if __name__ == '__main__':
     	# Settings
 	sms_settings = sms.client.Settings(addon.getSetting('sms_url'), \
-				      addon.getSetting('alt_url'), \
 				      addon.getSetting('username'), \
 				      addon.getSetting('password'), \
 				      addon.getSetting('audioquality')[:1], \
@@ -249,15 +248,8 @@ if __name__ == '__main__':
     	addonHandle = int(sys.argv[1])
     	arguments = urlparse.parse_qs(sys.argv[2][1:])
 
-	# Retrieve URL
-	sms_url = None
-	url = arguments.get('url', None)
-	
-	if url:
-		sms_url = url[0]
-
     	# REST Client
-    	sms_client = sms.client.RESTClient(sms_settings, sms_url)
+    	sms_client = sms.client.RESTClient(sms_settings)
 
     	# Test connection with server
     	if not sms_client.testConnection():

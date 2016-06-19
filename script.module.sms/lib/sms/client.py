@@ -32,7 +32,6 @@ VIDEO_FORMAT = "hls"
 
 class Settings(object):
 	serverUrl = None
-	altUrl = None
     	username = None
     	password = None
     	quality = None
@@ -42,7 +41,6 @@ class Settings(object):
 
 	def __init__(self, \
 		     serverUrl, \
-		     altUrl, \
 		     username, \
 		     password, \
 		     quality, \
@@ -51,7 +49,6 @@ class Settings(object):
 	             directPlay):
 
 		self.serverUrl = serverUrl
-		self.altUrl = altUrl
         	self.username = username
         	self.password = password
 		self.quality = quality
@@ -61,27 +58,19 @@ class Settings(object):
 
 class RESTClient(object):
 	settings = None
-	serverUrl = None
 
-    	def __init__(self, settings, serverUrl):
+    	def __init__(self, settings):
         	self.settings = settings
-		self.serverUrl = serverUrl
 
     	def testConnection(self):
-		if self.serverUrl:
-			return True
-		elif testUrl(self.settings.altUrl, self.settings.username, self.settings.password):
-			self.serverUrl = self.settings.altUrl
-			return True
-		elif testUrl(self.settings.serverUrl, self.settings.username, self.settings.password):
-			self.serverUrl = self.settings.serverUrl
+		if testUrl(self.settings.serverUrl, self.settings.username, self.settings.password):
 			return True
 
 		return False
 
 	def getRecentlyAddedVideoElements(self):
 		try:
-	    		response = requests.get(self.serverUrl + '/media/recentlyadded/50?type=1', auth=(self.settings.username, self.settings.password))
+	    		response = requests.get(self.settings.serverUrl + '/media/recentlyadded/50?type=1', auth=(self.settings.username, self.settings.password))
 	    		data = response.json()
 	    		return data
 		except requests.exceptions.RequestException:
@@ -89,7 +78,7 @@ class RESTClient(object):
 
 	def getRecentlyPlayedVideoElements(self):
 		try:
-	    		response = requests.get(self.serverUrl + '/media/recentlyplayed/50?type=1', auth=(self.settings.username, self.settings.password))
+	    		response = requests.get(self.settings.serverUrl + '/media/recentlyplayed/50?type=1', auth=(self.settings.username, self.settings.password))
 	    		data = response.json()
 	    		return data
 		except requests.exceptions.RequestException:
@@ -97,7 +86,7 @@ class RESTClient(object):
 
 	def getRecentlyAddedAudioElements(self):
 		try:
-	    		response = requests.get(self.serverUrl + '/media/recentlyadded/50?type=0', auth=(self.settings.username, self.settings.password))
+	    		response = requests.get(self.settings.serverUrl + '/media/recentlyadded/50?type=0', auth=(self.settings.username, self.settings.password))
 	    		data = response.json()
 	    		return data
 		except requests.exceptions.RequestException:
@@ -105,7 +94,7 @@ class RESTClient(object):
 
 	def getRecentlyPlayedAudioElements(self):
 		try:
-	    		response = requests.get(self.serverUrl + '/media/recentlyplayed/50?type=0', auth=(self.settings.username, self.settings.password))
+	    		response = requests.get(self.settings.serverUrl + '/media/recentlyplayed/50?type=0', auth=(self.settings.username, self.settings.password))
 	    		data = response.json()
 	    		return data
 		except requests.exceptions.RequestException:
@@ -113,7 +102,7 @@ class RESTClient(object):
 
     	def getMediaFolders(self):
 		try:
-	    		response = requests.get(self.serverUrl + '/media/folder', auth=(self.settings.username, self.settings.password))
+	    		response = requests.get(self.settings.serverUrl + '/media/folder', auth=(self.settings.username, self.settings.password))
 	    		data = response.json()
 	    		return data
 		except requests.exceptions.RequestException:
@@ -121,7 +110,7 @@ class RESTClient(object):
 
     	def getMediaFolderContents(self, id):
 		try:
-	    		response = requests.get(self.serverUrl + '/media/folder/' + str(id) + '/contents', auth=(self.settings.username, self.settings.password))
+	    		response = requests.get(self.settings.serverUrl + '/media/folder/' + str(id) + '/contents', auth=(self.settings.username, self.settings.password))
 	    		data = response.json()
 	    		return data
 		except requests.exceptions.RequestException:
@@ -129,7 +118,7 @@ class RESTClient(object):
 
     	def getDirectoryElementContents(self, id):
 		try:
-	    		response = requests.get(self.serverUrl + '/media/' + str(id) + '/contents', auth=(self.settings.username,self.settings.password))
+	    		response = requests.get(self.settings.serverUrl + '/media/' + str(id) + '/contents', auth=(self.settings.username,self.settings.password))
 	    		data = response.json()
 	    		return data
 		except requests.exceptions.RequestException:
@@ -137,7 +126,7 @@ class RESTClient(object):
 
     	def getMediaElement(self, id):
 		try:
-	    		response = requests.get(self.serverUrl + '/media/' + str(id), auth=(self.settings.username, self.settings.password))
+	    		response = requests.get(self.settings.serverUrl + '/media/' + str(id), auth=(self.settings.username, self.settings.password))
 	    		data = response.json()
 	    		return data
 		except requests.exceptions.RequestException:
@@ -145,7 +134,7 @@ class RESTClient(object):
 
     	def initialiseStream(self, id, type):
 		try:
-			url = self.serverUrl + '/stream/initialise/' + str(id)
+			url = self.settings.serverUrl + '/stream/initialise/' + str(id)
 			url += '?files=' + FILES
 			url += '&codecs=' + CODECS
 			
@@ -168,7 +157,7 @@ class RESTClient(object):
 	    		xbmcgui.Dialog().notification('mediaStreamer', 'There was an error initialising the stream.', xbmcgui.NOTIFICATION_ERROR, 5000)
 
     	def endJob(self, id):
-		response = requests.get(self.serverUrl + '/job/' + str(id) + '/end', auth=(self.settings.username, self.settings.password))
+		response = requests.get(self.settings.serverUrl + '/job/' + str(id) + '/end', auth=(self.settings.username, self.settings.password))
 
 def testUrl(url, username, password):
 	try:

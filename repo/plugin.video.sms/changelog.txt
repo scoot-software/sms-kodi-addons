@@ -1,3 +1,7 @@
+[B]Version 0.0.3[/B]
+
+- Remove alternative URL as this isn't required with the latest server versions
+
 [B]Version 0.0.2[/B]
 
 - Support multiple server addresses (e.g. local and remote)
