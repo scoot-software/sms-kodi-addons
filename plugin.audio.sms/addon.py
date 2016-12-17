@@ -47,7 +47,7 @@ addon_path = addon.getAddonInfo('path').decode('utf-8')
 #
 
 def buildUrl(query):
-    	return addonUrl + '?' + urllib.urlencode(query)
+    	return baseUrl + '?' + urllib.urlencode(query)
 
 def mainMenu():
 	# Media Browser
@@ -123,6 +123,7 @@ def parseMediaElements(elements, altTitle):
         	if elementType == 0:
 	    		url = buildUrl({'url': sms_client.settings.serverUrl, 'mode': 'audio_element','id': element['id']})
 	    		item = xbmcgui.ListItem(title, iconImage='DefaultAudio.png')
+			item.setContentLookup(0)
 			item.setProperty("IsPlayable", "true")
 	    		item.setInfo('music', { 'title': element['title'] })
 	    
@@ -150,7 +151,7 @@ def parseMediaElements(elements, altTitle):
 		    	if 'description' in element:
 				item.setInfo('music', { 'comment': element['description'] })
 
-			item.setArt({ 'thumb': sms_settings.serverUrl + '/image/' + str(element['id']) + '/cover/500', 'fanart' : sms_settings.serverUrl + '/image/' + str(element['id']) + '/fanart/' + str(xbmcgui.Window().getWidth()) })
+			item.setArt({ 'thumb': sms_settings.serverUrl + '/image/' + str(element['id']) + '/cover/500', 'poster': sms_settings.serverUrl + '/image/' + str(element['id']) + '/cover/500', 'fanart' : sms_settings.serverUrl + '/image/' + str(element['id']) + '/fanart/' + str(xbmcgui.Window().getWidth()) })
 
 		    	xbmcplugin.addDirectoryItem(
 		        	handle=addonHandle,
@@ -174,7 +175,7 @@ def parseMediaElements(elements, altTitle):
 					if 'year' in element:
 						item.setInfo('music', { 'year': str(element['year']) })
 				
-				item.setArt({ 'thumb': sms_settings.serverUrl + '/image/' + str(element['id']) + '/cover/500', 'fanart' : sms_settings.serverUrl + '/image/' + str(element['id']) + '/fanart/' + str(xbmcgui.Window().getWidth()) })
+				item.setArt({ 'thumb': sms_settings.serverUrl + '/image/' + str(element['id']) + '/cover/500', 'poster': sms_settings.serverUrl + '/image/' + str(element['id']) + '/cover/500', 'fanart' : sms_settings.serverUrl + '/image/' + str(element['id']) + '/fanart/' + str(xbmcgui.Window().getWidth()) })
 
 				xbmcplugin.addDirectoryItem(
 					handle=addonHandle,
@@ -191,6 +192,7 @@ def playAudio():
     	url = sms_settings.serverUrl + '/stream/' + str(profile['id'])
     
     	item = xbmcgui.ListItem(element['title'], path=url, iconImage="DefaultAudio.png")
+	item.setContentLookup(0)
     	item.setInfo('music', { 'title': element['title'] })
 	item.setMimeType(profile['mimeType'])
 	item.setArt({ 'thumb': sms_settings.serverUrl + '/image/' + str(id) + '/cover/500', 'fanart' : sms_settings.serverUrl + '/image/' + str(element['id']) + '/fanart/' + str(xbmcgui.Window().getWidth()) })
@@ -222,7 +224,7 @@ def playAudio():
     	xbmcplugin.setResolvedUrl(handle=addonHandle, succeeded=True, listitem=item)
 
     	# Blocking call to monitor playback
-	sms.player.monitorPlayback(url)
+	sms.player.monitorPlayback(url, addonUrl)
 
     	# End job
     	sms_client.endJob(profile['id'])
@@ -244,7 +246,8 @@ if __name__ == '__main__':
 				      addon.getSetting('directplay'))
 
 	# XBMC Plugin URLs
-    	addonUrl = sys.argv[0]
+    	addonUrl = sys.argv[0] + sys.argv[2]
+	baseUrl = sys.argv[0]
     	addonHandle = int(sys.argv[1])
     	arguments = urlparse.parse_qs(sys.argv[2][1:])
 

@@ -36,9 +36,12 @@ class SMSPlayer(xbmc.Player):
     	def onPlayBackStopped(self):
         	self.ended = True
 
-def monitorPlayback(url):
+def monitorPlayback(url, addonUrl):
     	monitor = xbmc.Monitor()
     	player = SMSPlayer()
+
+	xbmc.log(msg='URL: ' + url, level=xbmc.LOGDEBUG);
+	xbmc.log(msg='Addon URL: ' + addonUrl, level=xbmc.LOGDEBUG);
 
     	count = 0
     	currentFile = None
@@ -48,7 +51,9 @@ def monitorPlayback(url):
 		if xbmc.Player().isPlaying():
 			currentFile = xbmc.Player().getPlayingFile()
 			
-			if currentFile == url:
+			xbmc.log(msg='Current File: ' + currentFile, level=xbmc.LOGDEBUG);
+
+			if (currentFile == url) or (currentFile == addonUrl):
 				playbackStarted = True
 			else:
 				if playbackStarted:

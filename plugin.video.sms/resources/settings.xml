@@ -3,7 +3,7 @@
     <setting id="sms_url" type="text" label="Server Address" default="http://"/>
     <setting id="username" type="text" label="Username" default=""/>
     <setting id="password" type="text" option="hidden" label="Password" default=""/>
-    <setting id="videoquality" type="labelenum" label="Video Quality" values="0 (240p)|1 (360p)|2 (480p)|3 (720p)|4 (1080p)" default="2 (480p)"/>
+    <setting id="videoquality" type="labelenum" label="Video Quality" values="0 (Very Low)|1 (Low)|2 (Medium)|3 (High)|4 (Very High)|5 (HD)|6 (Full HD)" default="3 (High)"/>
     <setting id="maxsamplerate" type="labelenum" label="Max Sample Rate (Hz)" values="44100|48000|96000|192000" default="48000"/>
     <setting id="multichannel" type="bool" label="Enable Multichannel Audio" default="false"/>
     <setting id="directplay" type="bool" label="Enable Direct Play On Local Network" default="false"/>

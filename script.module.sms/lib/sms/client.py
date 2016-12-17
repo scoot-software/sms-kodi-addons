@@ -25,10 +25,11 @@
 import requests
 import xbmcgui
 
+CLIENT = "kodi"
 FILES = "3gp,aac,avi,flac,m4a,m4v,mka,mkv,mp3,mp4,mpeg,mpg,oga,ogg,wav,webm"
 CODECS = "h264,vp8,mpeg2video,vc1,mp3,aac,flac,ac3,vorbis,alac,dts,pcm,truehd,subrip,dvb,dvd,pgs"
 MCH_CODECS = "ac3,aac,dts,flac,pcm,truehd,vorbis"
-VIDEO_FORMAT = "hls"
+FORMAT = "hls"
 
 class Settings(object):
 	serverUrl = None
@@ -135,18 +136,15 @@ class RESTClient(object):
     	def initialiseStream(self, id, type):
 		try:
 			url = self.settings.serverUrl + '/stream/initialise/' + str(id)
-			url += '?files=' + FILES
+			url += '?client=' + CLIENT			
+			url += '&files=' + FILES
 			url += '&codecs=' + CODECS
 			
 			if self.settings.multichannel == 'true':
 				url += '&mchcodecs=' + MCH_CODECS
 
-			if type == 0:
-				url += '&quality=' + self.settings.quality
-			elif type == 1:
-				url += '&format=' + VIDEO_FORMAT
-				url += '&quality=' + self.settings.quality
-
+			url += '&format=' + FORMAT
+			url += '&quality=' + self.settings.quality
 			url += '&samplerate=' + self.settings.maxSampleRate
 			url += '&direct=' + self.settings.directPlay
 
@@ -157,7 +155,7 @@ class RESTClient(object):
 	    		xbmcgui.Dialog().notification('mediaStreamer', 'There was an error initialising the stream.', xbmcgui.NOTIFICATION_ERROR, 5000)
 
     	def endJob(self, id):
-		response = requests.get(self.settings.serverUrl + '/job/' + str(id) + '/end', auth=(self.settings.username, self.settings.password))
+		response = requests.get(self.settings.serverUrl + '/job/end/' + str(id), auth=(self.settings.username, self.settings.password))
 
 def testUrl(url, username, password):
 	try:

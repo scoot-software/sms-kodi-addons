@@ -47,7 +47,7 @@ addon_path = addon.getAddonInfo('path').decode('utf-8')
 #
 
 def buildUrl(query):
-    	return addonUrl + '?' + urllib.urlencode(query)
+    	return baseUrl + '?' + urllib.urlencode(query)
 
 def mainMenu():
 	# Media Browser
@@ -125,6 +125,7 @@ def parseMediaElements(elements, altTitle):
         	if elementType == 1:
 	    		url = buildUrl({'url': sms_client.settings.serverUrl, 'mode': 'video_element','id': element['id']})
 			item = xbmcgui.ListItem(title, iconImage='DefaultVideo.png')
+			item.setContentLookup(0)
 			item.setProperty("IsPlayable", "true")
 			item.setInfo('video', { 'title': element['title'] })
 			    
@@ -146,13 +147,16 @@ def parseMediaElements(elements, altTitle):
 			if 'genre' in element:
 				item.setInfo('video', { 'genre': element['genre'] })
 
+			if 'collection' in element:
+				item.setInfo('video', { 'set': element['collection'] })
+			
 			if 'duration' in element:
 				if sms.utils.getVersion() < 15:
 				    	item.setInfo('video', { 'duration': element['duration'] // 60})
 				else:
 				    	item.setInfo('video', { 'duration': element['duration'] })
 
-			item.setArt({ 'thumb': sms_settings.serverUrl + '/image/' + str(element['id']) + '/cover/500', 'fanart' : sms_settings.serverUrl + '/image/' + str(element['id']) + '/fanart/' + str(xbmcgui.Window().getWidth()) })
+			item.setArt({ 'thumb': sms_settings.serverUrl + '/image/' + str(element['id']) + '/thumbnail/500', 'poster': sms_settings.serverUrl + '/image/' + str(element['id']) + '/cover/500', 'fanart' : sms_settings.serverUrl + '/image/' + str(element['id']) + '/fanart/' + str(xbmcgui.Window().getWidth()) })
 
 			xbmcplugin.addDirectoryItem(
 				handle=addonHandle,
@@ -166,10 +170,9 @@ def parseMediaElements(elements, altTitle):
 				url = buildUrl({'url': sms_client.settings.serverUrl, 'mode': 'directory_element','id': element['id']})
 				item = xbmcgui.ListItem(title,iconImage='DefaultFolder.png')
 				item.setProperty("IsPlayable", "false")
+				item.setInfo('video', { 'title': element['title'] })
 					
 				if directoryType == 1:
-					item.setInfo('video', { 'title': element['title'] })
-
 					if 'year' in element:
 						item.setInfo('video', { 'year': str(element['year']) })
 			
@@ -188,7 +191,10 @@ def parseMediaElements(elements, altTitle):
 					if 'genre' in element:
 						item.setInfo('video', { 'genre': element['genre'] })
 
-				item.setArt({ 'thumb': sms_settings.serverUrl + '/image/' + str(element['id']) + '/cover/500', 'fanart' : sms_settings.serverUrl + '/image/' + str(element['id']) + '/fanart/' + str(xbmcgui.Window().getWidth()) })
+					if 'collection' in element:
+						item.setInfo('video', { 'set': element['collection'] })
+
+				item.setArt({ 'poster': sms_settings.serverUrl + '/image/' + str(element['id']) + '/cover/500', 'fanart' : sms_settings.serverUrl + '/image/' + str(element['id']) + '/fanart/' + str(xbmcgui.Window().getWidth()) })
 
 				xbmcplugin.addDirectoryItem(
 					handle=addonHandle,
@@ -205,9 +211,10 @@ def playVideo():
     	url = sms_settings.serverUrl + '/stream/' + str(profile['id'])
 
     	item = xbmcgui.ListItem(element['title'], path=url, iconImage="DefaultVideo.png")
-	item.setArt({ 'thumb': sms_settings.serverUrl + '/image/' + str(element['id']) + '/cover/500', 'fanart' : sms_settings.serverUrl + '/image/' + str(element['id']) + '/fanart/' + str(xbmcgui.Window().getWidth()) })
+	item.setArt({ 'thumb': sms_settings.serverUrl + '/image/' + str(element['id']) + '/thumbnail/500', 'poster': sms_settings.serverUrl + '/image/' + str(element['id']) + '/cover/500', 'fanart' : sms_settings.serverUrl + '/image/' + str(element['id']) + '/fanart/' + str(xbmcgui.Window().getWidth()) })
     	item.setInfo('video', { 'title': element['title'] })
 	item.setMimeType(profile['mimeType'])
+	item.setContentLookup(0)
 
     	if 'rating' in element:
         	item.setInfo('video', { 'rating': element['rating'] })
@@ -227,6 +234,9 @@ def playVideo():
    	if 'genre' in element:
        	 	item.setInfo('video', { 'genre': element['genre'] })
 
+	if 'collection' in element:
+		item.setInfo('video', { 'set': element['collection'] })
+
     	if 'duration' in element:
 		if sms.utils.getVersion() < 15:
 	   		item.setInfo('video', { 'duration': element['duration'] // 60})
@@ -236,7 +246,7 @@ def playVideo():
     	xbmcplugin.setResolvedUrl(handle=addonHandle, succeeded=True, listitem=item)
 
 	# Blocking call to monitor playback
-	sms.player.monitorPlayback(url)
+	sms.player.monitorPlayback(url, addonUrl)
 
     	# End job
     	sms_client.endJob(profile['id'])
@@ -258,7 +268,8 @@ if __name__ == '__main__':
 				      addon.getSetting('directplay'))
 
 	# XBMC Plugin URLs
-    	addonUrl = sys.argv[0]
+    	addonUrl = sys.argv[0] + sys.argv[2]
+	baseUrl = sys.argv[0]
     	addonHandle = int(sys.argv[1])
     	arguments = urlparse.parse_qs(sys.argv[2][1:])
 
