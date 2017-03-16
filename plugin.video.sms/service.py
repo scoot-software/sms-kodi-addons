@@ -24,10 +24,12 @@
 ################################################################################################
 
 from operator import itemgetter
+from bottle import Bottle, ServerAdapter, run
 import os
 import sys
 import urllib
 import urlparse
+import requests
 import time
 import xbmcaddon
 import xbmcgui
@@ -47,23 +49,38 @@ import client
 
 ################################################################################################
 
+def shutdown():
+	sms_client.endSession(sessionId)
+
 if __name__ == '__main__':
     	# Settings
-	sms_settings = {\
-			'serverUrl': addon.getSetting('serverUrl') + ':' + addon.getSetting('serverPort'), \
-			'username': addon.getSetting('username'), \
-			'password': addon.getSetting('password'), \
-			'servicePort': addon.getSetting('servicePort')}
+	settings = {\
+		'serverUrl': addon.getSetting('serverUrl') + ':' + addon.getSetting('serverPort'), \
+		'username': addon.getSetting('username'), \
+		'password': addon.getSetting('password'), \
+		'servicePort': addon.getSetting('servicePort')}
 
-    	# REST Client
-    	sms_client = client.RESTClient(sms_settings)
+    	# SMS Server Client
+    	sms_client = client.RESTClient(settings)
+
+	# Session ID
+	sessionId = sms_client.createSession()
+
+	# REST Service
+	serviceController = Bottle()
+
+	@serviceController.route('/session')
+	def getSession():
+	    return sessionId
+
+	run(serviceController,host='localhost', port=settings['servicePort'])
 
 	# Main loop
 	monitor = xbmc.Monitor()
  
 	while not monitor.abortRequested():
-		# Sleep/wait for abort for 10 seconds
-		if monitor.waitForAbort(10):
-			# Abort was requested while waiting. We should exit
+		if monitor.waitForAbort(1):
+			# Abort was requested while waiting.
+			shutdown()
 			break
 

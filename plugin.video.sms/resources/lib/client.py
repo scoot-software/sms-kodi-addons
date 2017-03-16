@@ -128,6 +128,9 @@ class RESTClient(object):
 		except requests.exceptions.RequestException:
 	    		xbmcgui.Dialog().notification('mediaStreamer', 'There was an error creating a new session.', xbmcgui.NOTIFICATION_ERROR, 5000)
 
+	def endSession(self, id):
+		response = requests.get(self.settings['serverUrl'] + '/session/end/' + str(id), auth=(self.settings['username'], self.settings['password']))
+
 def testUrl(settings):
 	try:
     		response = requests.get(settings['serverUrl'] + '/settings/version', auth=(settings['username'], settings['password']), timeout=2.0)

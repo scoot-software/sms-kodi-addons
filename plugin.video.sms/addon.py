@@ -44,6 +44,7 @@ sys.path.append(libs)
 ################################################################################################
 
 import client
+import service_client
 import player
 import utils
 
@@ -53,7 +54,7 @@ import utils
 # Helper Functions
 #
 def buildUrl(query):
-    	return baseUrl + '?' + urllib.urlencode({'session': session_id}) + '&' + urllib.urlencode(query)
+    	return baseUrl + '?' + urllib.urlencode(query)
 
 def getMediaType(type):
 	if type is None:
@@ -337,7 +338,7 @@ def parseMediaElements(elements, altTitle):
 
 def playVideo():
     	id = arguments.get('id', None)[0]
-    	profile = sms_client.initialiseStream(session_id, id, 1)
+    	profile = sms_client.initialiseStream(session, id, 1)
     	element = sms_client.getMediaElement(id)
     	url = sms_settings['serverUrl'] + '/stream/' + str(profile['id'])
 
@@ -386,7 +387,7 @@ def playVideo():
 
 def playAudio():
     	id = arguments.get('id', None)[0]
-    	profile = sms_client.initialiseStream(session_id, id, 0)
+    	profile = sms_client.initialiseStream(session, id, 0)
     	element = sms_client.getMediaElement(id)
     	url = sms_settings['serverUrl'] + '/stream/' + str(profile['id'])
     
@@ -444,7 +445,8 @@ if __name__ == '__main__':
 			'videoQuality': addon.getSetting('videoQuality')[:1], \
 			'maxSampleRate': addon.getSetting('maxSampleRate'), \
 			'multichannel': addon.getSetting('multichannel'), \
-			'directPlay': addon.getSetting('directPlay')}
+			'directPlay': addon.getSetting('directPlay'),
+			'servicePort': addon.getSetting('servicePort')}
 
 	# XBMC Plugin URLs
     	addonUrl = sys.argv[0] + sys.argv[2]
@@ -452,8 +454,11 @@ if __name__ == '__main__':
     	addonHandle = int(sys.argv[1])
     	arguments = urlparse.parse_qs(sys.argv[2][1:])
 
-    	# REST Client
+    	# Server Client
     	sms_client = client.RESTClient(sms_settings)
+
+	# Service Client
+    	serviceClient = service_client.ServiceClient(sms_settings)
 
     	# Test connection with server
     	if not sms_client.testConnection():
@@ -465,15 +470,10 @@ if __name__ == '__main__':
 		else:
 	    		sys.exit("Settings incorrect.")
 
-	# Check Session ID
-	session = arguments.get('session', None)
+	# Session ID
+	session = serviceClient.getSession()
 
-	if session is None:
-		session_id = sms_client.createSession()
-	else:
-		session_id = session[0]
-
-	xbmc.log(str(session_id), level=xbmc.LOGNOTICE)
+	xbmc.log(str(session), level=xbmc.LOGNOTICE)
 
     	# Addon Routing
 	contentType = arguments.get('content_type', None)
