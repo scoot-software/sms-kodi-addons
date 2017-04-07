@@ -26,9 +26,9 @@ import requests
 import xbmcgui
 
 CLIENT = "kodi"
-FILES = "3gp,aac,avi,flac,m4a,m4v,mka,mkv,mp3,mp4,mpeg,mpg,oga,ogg,wav,webm"
-CODECS = "h264,vp8,mpeg2video,vc1,mp3,aac,flac,ac3,vorbis,alac,dts,pcm,truehd,subrip,dvb,dvd,pgs"
-MCH_CODECS = "ac3,aac,dts,flac,pcm,truehd,vorbis"
+FILES = "3gp,aac,avi,flac,m4a,m4v,mka,mkv,mp3,mp4,mpeg,mpg,oga,ogg,wav,webm,dsf"
+CODECS = "h264,vp8,mpeg2video,vc1,mp3,aac,flac,ac3,vorbis,alac,dts,pcm,dsd,truehd,subrip,dvb,dvd,pgs"
+MCH_CODECS = "ac3,aac,dts,flac,pcm,dsd,truehd,vorbis"
 FORMAT = "hls"
 
 class RESTClient(object):
