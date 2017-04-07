@@ -49,38 +49,51 @@ import client
 
 ################################################################################################
 
-def shutdown():
-	sms_client.endSession(sessionId)
+class Service(object):
+
+	settings = None
+	serverClient = None
+	sessionId = None
+	controller = None
+	monitor = None
+
+	def start(self):
+		# Settings
+		self.settings = {\
+			'serverUrl': addon.getSetting('serverUrl') + ':' + addon.getSetting('serverPort'), \
+			'username': addon.getSetting('username'), \
+			'password': addon.getSetting('password'), \
+			'servicePort': addon.getSetting('servicePort')}
+
+	    	# SMS Server Client
+	    	self.serverClient = client.RESTClient(self.settings)
+
+		# Session ID
+		self.sessionId = self.serverClient.createSession()
+
+		# REST Service
+		self.controller = Bottle()
+
+		@self.controller.route('/session')
+		def getSession():
+		    return self.sessionId
+
+		run(self.controller, host='localhost', port=self.settings['servicePort'])
+
+		# Main loop
+		self.monitor = xbmc.Monitor()
+	 
+		while not self.monitor.abortRequested():
+			if self.monitor.waitForAbort(1):
+				# Abort was requested while waiting.
+				self.shutdown()
+				break
+
+
+	def shutdown(self):
+		self.serverClient.endSession(self.sessionId)
 
 if __name__ == '__main__':
-    	# Settings
-	settings = {\
-		'serverUrl': addon.getSetting('serverUrl') + ':' + addon.getSetting('serverPort'), \
-		'username': addon.getSetting('username'), \
-		'password': addon.getSetting('password'), \
-		'servicePort': addon.getSetting('servicePort')}
-
-    	# SMS Server Client
-    	sms_client = client.RESTClient(settings)
-
-	# Session ID
-	sessionId = sms_client.createSession()
-
-	# REST Service
-	serviceController = Bottle()
-
-	@serviceController.route('/session')
-	def getSession():
-	    return sessionId
-
-	run(serviceController,host='localhost', port=settings['servicePort'])
-
-	# Main loop
-	monitor = xbmc.Monitor()
- 
-	while not monitor.abortRequested():
-		if monitor.waitForAbort(1):
-			# Abort was requested while waiting.
-			shutdown()
-			break
+    	service = Service()
+	service.start()
 
