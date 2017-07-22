@@ -338,6 +338,7 @@ def parseMediaElements(elements, altTitle):
 
 def playVideo():
     	id = arguments.get('id', None)[0]
+	sms_client.addSession(session)
     	profile = sms_client.initialiseStream(session, id, 1)
     	element = sms_client.getMediaElement(id)
     	url = sms_settings['serverUrl'] + '/stream/' + str(profile['id'])
@@ -387,6 +388,7 @@ def playVideo():
 
 def playAudio():
     	id = arguments.get('id', None)[0]
+	sms_client.addSession(session)
     	profile = sms_client.initialiseStream(session, id, 0)
     	element = sms_client.getMediaElement(id)
     	url = sms_settings['serverUrl'] + '/stream/' + str(profile['id'])

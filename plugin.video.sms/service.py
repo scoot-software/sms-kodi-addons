@@ -46,6 +46,7 @@ sys.path.append(libs)
 ################################################################################################
 
 import client
+import uuid
 
 ################################################################################################
 
@@ -69,14 +70,15 @@ class Service(object):
 	    	self.serverClient = client.RESTClient(self.settings)
 
 		# Session ID
-		self.sessionId = self.serverClient.createSession()
+		self.sessionId = uuid.uuid4()
+		self.serverClient.addSession(self.sessionId)
 
 		# REST Service
 		self.controller = Bottle()
 
 		@self.controller.route('/session')
 		def getSession():
-		    return self.sessionId
+		    return str(self.sessionId)
 
 		run(self.controller, host='localhost', port=self.settings['servicePort'])
 

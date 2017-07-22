@@ -128,6 +128,12 @@ class RESTClient(object):
 		except requests.exceptions.RequestException:
 	    		xbmcgui.Dialog().notification('mediaStreamer', 'There was an error creating a new session.', xbmcgui.NOTIFICATION_ERROR, 5000)
 
+	def addSession(self, id):
+		try:
+	    		response = requests.get(self.settings['serverUrl'] + '/session/add/' + str(id), auth=(self.settings['username'], self.settings['password']))
+		except requests.exceptions.RequestException:
+	    		xbmcgui.Dialog().notification('mediaStreamer', 'There was an error fetching content from the server.', xbmcgui.NOTIFICATION_ERROR, 5000)
+
 	def endSession(self, id):
 		response = requests.get(self.settings['serverUrl'] + '/session/end/' + str(id), auth=(self.settings['username'], self.settings['password']))
 
