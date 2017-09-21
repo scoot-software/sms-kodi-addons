@@ -220,7 +220,7 @@ def parseMediaElements(elements, altTitle):
 					else:
 					    	item.setInfo('video', { 'duration': element['duration'] })
 
-				item.setArt({ 'thumb': sms_settings['serverUrl'] + '/image/' + str(element['id']) + '/thumbnail/500', 'poster': sms_settings['serverUrl'] + '/image/' + str(element['id']) + '/cover/500', 'fanart' : sms_settings['serverUrl'] + '/image/' + str(element['id']) + '/fanart/' + str(xbmcgui.Window().getWidth()) })
+				item.setArt({ 'thumb': sms_settings['serverUrl'] + '/image/' + str(element['id']) + '/thumbnail', 'poster': sms_settings['serverUrl'] + '/image/' + str(element['id']) + '/cover', 'fanart' : sms_settings['serverUrl'] + '/image/' + str(element['id']) + '/fanart?scale=' + str(xbmcgui.Window().getWidth()) })
 
 				xbmcplugin.addDirectoryItem(
 					handle=addonHandle,
@@ -258,7 +258,7 @@ def parseMediaElements(elements, altTitle):
 						if 'collection' in element:
 							item.setInfo('video', { 'set': element['collection'] })
 
-					item.setArt({ 'poster': sms_settings['serverUrl'] + '/image/' + str(element['id']) + '/cover/500', 'fanart' : sms_settings['serverUrl'] + '/image/' + str(element['id']) + '/fanart/' + str(xbmcgui.Window().getWidth()) })
+					item.setArt({ 'poster': sms_settings['serverUrl'] + '/image/' + str(element['id']) + '/cover', 'fanart' : sms_settings['serverUrl'] + '/image/' + str(element['id']) + '/fanart?scale=' + str(xbmcgui.Window().getWidth()) })
 
 					xbmcplugin.addDirectoryItem(
 						handle=addonHandle,
@@ -302,7 +302,7 @@ def parseMediaElements(elements, altTitle):
 			    	if 'description' in element:
 					item.setInfo('music', { 'comment': element['description'] })
 
-				item.setArt({ 'thumb': sms_settings['serverUrl'] + '/image/' + str(element['id']) + '/cover/500', 'poster': sms_settings['serverUrl'] + '/image/' + str(element['id']) + '/cover/500', 'fanart' : sms_settings['serverUrl'] + '/image/' + str(element['id']) + '/fanart/' + str(xbmcgui.Window().getWidth()) })
+				item.setArt({ 'thumb': sms_settings['serverUrl'] + '/image/' + str(element['id']) + '/cover', 'poster': sms_settings['serverUrl'] + '/image/' + str(element['id']) + '/cover', 'fanart' : sms_settings['serverUrl'] + '/image/' + str(element['id']) + '/fanart?scale=' + str(xbmcgui.Window().getWidth()) })
 
 			    	xbmcplugin.addDirectoryItem(
 					handle=addonHandle,
@@ -326,7 +326,7 @@ def parseMediaElements(elements, altTitle):
 						if 'year' in element:
 							item.setInfo('music', { 'year': str(element['year']) })
 				
-					item.setArt({ 'thumb': sms_settings['serverUrl'] + '/image/' + str(element['id']) + '/cover/500', 'poster': sms_settings['serverUrl'] + '/image/' + str(element['id']) + '/cover/500', 'fanart' : sms_settings['serverUrl'] + '/image/' + str(element['id']) + '/fanart/' + str(xbmcgui.Window().getWidth()) })
+					item.setArt({ 'thumb': sms_settings['serverUrl'] + '/image/' + str(element['id']) + '/cover', 'poster': sms_settings['serverUrl'] + '/image/' + str(element['id']) + '/cover', 'fanart' : sms_settings['serverUrl'] + '/image/' + str(element['id']) + '/fanart?scale=' + str(xbmcgui.Window().getWidth()) })
 
 					xbmcplugin.addDirectoryItem(
 						handle=addonHandle,
@@ -344,7 +344,7 @@ def playVideo():
     	url = sms_settings['serverUrl'] + '/stream/' + str(profile['id'])
 
     	item = xbmcgui.ListItem(element['title'], path=url, iconImage="DefaultVideo.png")
-	item.setArt({ 'thumb': sms_settings['serverUrl'] + '/image/' + str(element['id']) + '/thumbnail/500', 'poster': sms_settings['serverUrl'] + '/image/' + str(element['id']) + '/cover/500', 'fanart' : sms_settings['serverUrl'] + '/image/' + str(element['id']) + '/fanart/' + str(xbmcgui.Window().getWidth()) })
+	item.setArt({ 'thumb': sms_settings['serverUrl'] + '/image/' + str(element['id']) + '/thumbnail', 'poster': sms_settings['serverUrl'] + '/image/' + str(element['id']) + '/cover', 'fanart' : sms_settings['serverUrl'] + '/image/' + str(element['id']) + '/fanart?scale=' + str(xbmcgui.Window().getWidth()) })
     	item.setInfo('video', { 'title': element['title'] })
 	item.setMimeType(profile['mimeType'])
 	item.setContentLookup(0)
@@ -397,7 +397,7 @@ def playAudio():
 	item.setContentLookup(0)
     	item.setInfo('music', { 'title': element['title'] })
 	item.setMimeType(profile['mimeType'])
-	item.setArt({ 'thumb': sms_settings['serverUrl'] + '/image/' + str(id) + '/cover/500', 'fanart' : sms_settings['serverUrl'] + '/image/' + str(element['id']) + '/fanart/' + str(xbmcgui.Window().getWidth()) })
+	item.setArt({ 'thumb': sms_settings['serverUrl'] + '/image/' + str(id) + '/cover', 'fanart' : sms_settings['serverUrl'] + '/image/' + str(element['id']) + '/fanart?scale=' + str(xbmcgui.Window().getWidth()) })
 	    
     	if 'trackNumber' in element:
 		item.setInfo('music', { 'tracknumber': element['trackNumber'] })
