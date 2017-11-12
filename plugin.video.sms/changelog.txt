@@ -1,3 +1,9 @@
+[B]Version 0.0.4[/B]
+
+- Merge plugins for easier maintenance
+- Add support for latest server versions
+- Add service to handle sessions and more in the future
+
 [B]Version 0.0.3[/B]
 
 - Remove alternative URL as this isn't required with the latest server versions

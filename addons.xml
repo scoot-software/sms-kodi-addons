@@ -13,16 +13,18 @@
 	</extension>
 </addon>
 
-<addon id="plugin.video.sms" name="Scoot Media Streamer" version="0.0.3" provider-name="Scott Ware">
+<addon id="plugin.video.sms" name="Scoot Media Streamer" version="0.0.4" provider-name="Scott Ware">
   <requires>
     <import addon="xbmc.python" version="2.19.0"/>
-    <import addon="script.module.sms" version="0.0.3"/>
+    <import addon="script.module.requests" version="2.12.4"/>
+    <import addon="script.module.bottle" version="0.12.8"/>
   </requires>
   <extension point="xbmc.python.pluginsource" library="addon.py">
-    <provides>video</provides>
+    <provides>audio video</provides>
   </extension>
+  <extension point="xbmc.service" library="service.py" start="startup" />
   <extension point="xbmc.addon.metadata">
-    <summary lang="en">The official Kodi video addon for Scoot Media Streamer.</summary>
+    <summary lang="en">The official Kodi addon for Scoot Media Streamer.</summary>
     <description lang="en">Scoot Media Streamer allows you to stream media from any SMS Server available on the internet. If you have a media server at home with SMS Server installed you can stream your media anywhere to a number of devices. This is the official Kodi addon which allows you to stream media from your SMS Server to any Kodi compatable device.</description>
     <disclaimer lang="en"></disclaimer>
     <language>en</language>
