@@ -8,7 +8,7 @@
 	</category>
 
 	<category label="30020"> <!-- Transcode -->
-		<setting id="videoQuality" label="30021" type="labelenum" values="0 (Very Low)|1 (Low)|2 (Medium)|3 (High)|4 (Very High)|5 (HD)|6 (Full HD)" default="3 (High)"/>
+		<setting id="videoQuality" label="30021" type="labelenum" values="0 (240p)|1 (360p)|2 (480p)|3 (576p)|4 (720p)|5 (1080p)" default="3 (576p)"/>
 		<setting id="audioQuality" label="30022" type="labelenum" values="0 (Low)|1 (Medium)|2 (High)|3 (Lossless)" default="2 (High)"/>
 		<setting id="maxSampleRate" label="30023" type="labelenum" values="44100|48000|96000|192000" default="48000"/>
 		<setting id="multichannel" label="30024" type="bool" default="false"/>
