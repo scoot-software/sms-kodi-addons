@@ -25,6 +25,6 @@
 import xbmc
 
 def getVersion():
-    	build = xbmc.getInfoLabel('System.BuildVersion')
-    	version = int(build.split(".", 1)[0])
-    	return version
+    build = xbmc.getInfoLabel('System.BuildVersion')
+    version = int(build.split(".", 1)[0])
+    return version

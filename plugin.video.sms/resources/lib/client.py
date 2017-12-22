@@ -32,114 +32,114 @@ MCH_CODECS = "ac3,aac,dts,flac,pcm,truehd,vorbis"
 FORMAT = "hls"
 
 class RESTClient(object):
-	settings = None
+    settings = None
 
-    	def __init__(self, settings):
-        	self.settings = settings
+    def __init__(self, settings):
+        self.settings = settings
 
-    	def testConnection(self):
-		if testUrl(self.settings):
-			return True
+    def testConnection(self):
+        if testUrl(self.settings):
+            return True
 
-		return False
+        return False
 
-	def getRecentlyAddedElements(self, type):
-		try:
-	    		response = requests.get(self.settings['serverUrl'] + '/media/recentlyadded/50?type=' + str(type), auth=(self.settings['username'], self.settings['password']))
-	    		data = response.json()
-	    		return data
-		except requests.exceptions.RequestException:
-	    		xbmcgui.Dialog().notification('mediaStreamer', 'There was an error fetching recently added media from the server.', xbmcgui.NOTIFICATION_ERROR, 5000)
+    def getRecentlyAddedElements(self, type):
+        try:
+            response = requests.get(self.settings['serverUrl'] + '/media/recentlyadded/50?type=' + str(type), auth=(self.settings['username'], self.settings['password']))
+            data = response.json()
+            return data
+        except requests.exceptions.RequestException:
+            xbmcgui.Dialog().notification('mediaStreamer', 'There was an error fetching recently added media from the server.', xbmcgui.NOTIFICATION_ERROR, 5000)
 
-	def getRecentlyPlayedElements(self, type):
-		try:
-	    		response = requests.get(self.settings['serverUrl'] + '/media/recentlyplayed/50?type=' + str(type), auth=(self.settings['username'], self.settings['password']))
-	    		data = response.json()
-	    		return data
-		except requests.exceptions.RequestException:
-	    		xbmcgui.Dialog().notification('mediaStreamer', 'There was an error fetching recently played media from the server.', xbmcgui.NOTIFICATION_ERROR, 5000)
+    def getRecentlyPlayedElements(self, type):
+        try:
+            response = requests.get(self.settings['serverUrl'] + '/media/recentlyplayed/50?type=' + str(type), auth=(self.settings['username'], self.settings['password']))
+            data = response.json()
+            return data
+        except requests.exceptions.RequestException:
+            xbmcgui.Dialog().notification('mediaStreamer', 'There was an error fetching recently played media from the server.', xbmcgui.NOTIFICATION_ERROR, 5000)
 
-    	def getMediaFolders(self):
-		try:
-	    		response = requests.get(self.settings['serverUrl'] + '/media/folder', auth=(self.settings['username'], self.settings['password']))
-	    		data = response.json()
-	    		return data
-		except requests.exceptions.RequestException:
-	    		xbmcgui.Dialog().notification('mediaStreamer', 'There was an error fetching media folders from the server.', xbmcgui.NOTIFICATION_ERROR, 5000)
+    def getMediaFolders(self):
+        try:
+            response = requests.get(self.settings['serverUrl'] + '/media/folder', auth=(self.settings['username'], self.settings['password']))
+            data = response.json()
+            return data
+        except requests.exceptions.RequestException:
+            xbmcgui.Dialog().notification('mediaStreamer', 'There was an error fetching media folders from the server.', xbmcgui.NOTIFICATION_ERROR, 5000)
 
-    	def getMediaFolderContents(self, id):
-		try:
-	    		response = requests.get(self.settings['serverUrl'] + '/media/folder/' + str(id) + '/contents', auth=(self.settings['username'], self.settings['password']))
-	    		data = response.json()
-	    		return data
-		except requests.exceptions.RequestException:
-	    		xbmcgui.Dialog().notification('mediaStreamer', 'There was an error fetching content from the server.', xbmcgui.NOTIFICATION_ERROR, 5000)
+    def getMediaFolderContents(self, id):
+        try:
+            response = requests.get(self.settings['serverUrl'] + '/media/folder/' + str(id) + '/contents', auth=(self.settings['username'], self.settings['password']))
+            data = response.json()
+            return data
+        except requests.exceptions.RequestException:
+            xbmcgui.Dialog().notification('mediaStreamer', 'There was an error fetching content from the server.', xbmcgui.NOTIFICATION_ERROR, 5000)
 
-    	def getDirectoryElementContents(self, id):
-		try:
-	    		response = requests.get(self.settings['serverUrl'] + '/media/' + str(id) + '/contents', auth=(self.settings['username'], self.settings['password']))
-	    		data = response.json()
-	    		return data
-		except requests.exceptions.RequestException:
-	    		xbmcgui.Dialog().notification('mediaStreamer', 'There was an error fetching content from the server.', xbmcgui.NOTIFICATION_ERROR, 5000)
+    def getDirectoryElementContents(self, id):
+        try:
+            response = requests.get(self.settings['serverUrl'] + '/media/' + str(id) + '/contents', auth=(self.settings['username'], self.settings['password']))
+            data = response.json()
+            return data
+        except requests.exceptions.RequestException:
+            xbmcgui.Dialog().notification('mediaStreamer', 'There was an error fetching content from the server.', xbmcgui.NOTIFICATION_ERROR, 5000)
 
-    	def getMediaElement(self, id):
-		try:
-	    		response = requests.get(self.settings['serverUrl'] + '/media/' + str(id), auth=(self.settings['username'], self.settings['password']))
-	    		data = response.json()
-	    		return data
-		except requests.exceptions.RequestException:
-	    		xbmcgui.Dialog().notification('mediaStreamer', 'There was an error fetching content from the server.', xbmcgui.NOTIFICATION_ERROR, 5000)
+    def getMediaElement(self, id):
+        try:
+            response = requests.get(self.settings['serverUrl'] + '/media/' + str(id), auth=(self.settings['username'], self.settings['password']))
+            data = response.json()
+            return data
+        except requests.exceptions.RequestException:
+            xbmcgui.Dialog().notification('mediaStreamer', 'There was an error fetching content from the server.', xbmcgui.NOTIFICATION_ERROR, 5000)
 
-    	def initialiseStream(self, session, id, type):
-		try:
-			url = self.settings['serverUrl'] + '/stream/initialise/' + str(session) + '/' + str(id)
-			url += '?client=' + CLIENT			
-			url += '&files=' + FILES
-			url += '&codecs=' + CODECS
-			
-			if self.settings['multichannel'] == 'true':
-				url += '&mchcodecs=' + MCH_CODECS
+    def initialiseStream(self, session, id, type):
+        try:
+            url = self.settings['serverUrl'] + '/stream/initialise/' + str(session) + '/' + str(id)
+            url += '?client=' + CLIENT            
+            url += '&files=' + FILES
+            url += '&codecs=' + CODECS
+            
+            if self.settings['multichannel'] == 'true':
+                url += '&mchcodecs=' + MCH_CODECS
 
-			url += '&format=' + FORMAT
+            url += '&format=' + FORMAT
 
-			if type == 0:
-				url += '&quality=' + self.settings['audioQuality']
-			elif type == 1:
-				url += '&quality=' + self.settings['videoQuality']
+            if type == 0:
+                url += '&quality=' + self.settings['audioQuality']
+            elif type == 1:
+                url += '&quality=' + self.settings['videoQuality']
 
-			url += '&samplerate=' + self.settings['maxSampleRate']
-			url += '&direct=' + self.settings['directPlay']
+            url += '&samplerate=' + self.settings['maxSampleRate']
+            url += '&direct=' + self.settings['directPlay']
 
-	    		response = requests.get(url, auth=(self.settings['username'], self.settings['password']))
-	    		data = response.json()
-	    		return data
-		except requests.exceptions.RequestException:
-	    		xbmcgui.Dialog().notification('mediaStreamer', 'There was an error initialising the stream.', xbmcgui.NOTIFICATION_ERROR, 5000)
+            response = requests.get(url, auth=(self.settings['username'], self.settings['password']))
+            data = response.json()
+            return data
+        except requests.exceptions.RequestException:
+            xbmcgui.Dialog().notification('mediaStreamer', 'There was an error initialising the stream.', xbmcgui.NOTIFICATION_ERROR, 5000)
 
-    	def endJob(self, id):
-		response = requests.get(self.settings['serverUrl'] + '/job/end/' + str(id), auth=(self.settings['username'], self.settings['password']))
+    def endJob(self, id):
+        response = requests.get(self.settings['serverUrl'] + '/job/end/' + str(id), auth=(self.settings['username'], self.settings['password']))
 
-	def createSession(self):
-		try:
-	    		response = requests.get(self.settings['serverUrl'] + '/session/create', auth=(self.settings['username'], self.settings['password']))
-	    		data = response.text
-	    		return data
-		except requests.exceptions.RequestException:
-	    		xbmcgui.Dialog().notification('mediaStreamer', 'There was an error creating a new session.', xbmcgui.NOTIFICATION_ERROR, 5000)
+    def createSession(self):
+        try:
+            response = requests.get(self.settings['serverUrl'] + '/session/create', auth=(self.settings['username'], self.settings['password']))
+            data = response.text
+            return data
+        except requests.exceptions.RequestException:
+            xbmcgui.Dialog().notification('mediaStreamer', 'There was an error creating a new session.', xbmcgui.NOTIFICATION_ERROR, 5000)
 
-	def addSession(self, id):
-		try:
-	    		response = requests.get(self.settings['serverUrl'] + '/session/add/' + str(id), auth=(self.settings['username'], self.settings['password']))
-		except requests.exceptions.RequestException:
-	    		xbmcgui.Dialog().notification('mediaStreamer', 'There was an error fetching content from the server.', xbmcgui.NOTIFICATION_ERROR, 5000)
+    def addSession(self, id):
+        try:
+            response = requests.get(self.settings['serverUrl'] + '/session/add/' + str(id), auth=(self.settings['username'], self.settings['password']))
+        except requests.exceptions.RequestException:
+            xbmcgui.Dialog().notification('mediaStreamer', 'There was an error fetching content from the server.', xbmcgui.NOTIFICATION_ERROR, 5000)
 
-	def endSession(self, id):
-		response = requests.get(self.settings['serverUrl'] + '/session/end/' + str(id), auth=(self.settings['username'], self.settings['password']))
+    def endSession(self, id):
+        response = requests.get(self.settings['serverUrl'] + '/session/end/' + str(id), auth=(self.settings['username'], self.settings['password']))
 
 def testUrl(settings):
-	try:
-    		response = requests.get(settings['serverUrl'] + '/settings/version', auth=(settings['username'], settings['password']), timeout=2.0)
-		return True
-	except requests.exceptions.RequestException:
-        	return False
+    try:
+        response = requests.get(settings['serverUrl'] + '/settings/version', auth=(settings['username'], settings['password']), timeout=2.0)
+        return True
+    except requests.exceptions.RequestException:
+        return False

@@ -25,15 +25,15 @@
 import requests
 
 class ServiceClient(object):
-	settings = None
+    settings = None
 
-    	def __init__(self, settings):
-        	self.settings = settings
+    def __init__(self, settings):
+        self.settings = settings
 
-	def getSession(self):
-		try:
-	    		response = requests.get('http://localhost:' + self.settings['servicePort'] + '/session')
-			data = response.text
-		    	return data
-		except requests.exceptions.RequestException:
-		    	return None
+    def getSession(self):
+        try:
+            response = requests.get('http://localhost:' + self.settings['servicePort'] + '/session')
+            data = response.text
+            return data
+        except requests.exceptions.RequestException:
+            return None

@@ -52,50 +52,50 @@ import uuid
 
 class Service(object):
 
-	settings = None
-	serverClient = None
-	sessionId = None
-	controller = None
-	monitor = None
+    settings = None
+    serverClient = None
+    sessionId = None
+    controller = None
+    monitor = None
 
-	def start(self):
-		# Settings
-		self.settings = {\
-			'serverUrl': addon.getSetting('serverUrl') + ':' + addon.getSetting('serverPort'), \
-			'username': addon.getSetting('username'), \
-			'password': addon.getSetting('password'), \
-			'servicePort': addon.getSetting('servicePort')}
+    def start(self):
+        # Settings
+        self.settings = {\
+            'serverUrl': addon.getSetting('serverUrl') + ':' + addon.getSetting('serverPort'), \
+            'username': addon.getSetting('username'), \
+            'password': addon.getSetting('password'), \
+            'servicePort': addon.getSetting('servicePort')}
 
-	    	# SMS Server Client
-	    	self.serverClient = client.RESTClient(self.settings)
+        # SMS Server Client
+        self.serverClient = client.RESTClient(self.settings)
 
-		# Session ID
-		self.sessionId = uuid.uuid4()
-		self.serverClient.addSession(self.sessionId)
+        # Session ID
+        self.sessionId = uuid.uuid4()
+        self.serverClient.addSession(self.sessionId)
 
-		# REST Service
-		self.controller = Bottle()
+        # REST Service
+        self.controller = Bottle()
 
-		@self.controller.route('/session')
-		def getSession():
-		    return str(self.sessionId)
+        @self.controller.route('/session')
+        def getSession():
+            return str(self.sessionId)
 
-		run(self.controller, host='localhost', port=self.settings['servicePort'])
+        run(self.controller, host='localhost', port=self.settings['servicePort'])
 
-		# Main loop
-		self.monitor = xbmc.Monitor()
-	 
-		while not self.monitor.abortRequested():
-			if self.monitor.waitForAbort(1):
-				# Abort was requested while waiting.
-				self.shutdown()
-				break
+        # Main loop
+        self.monitor = xbmc.Monitor()
+     
+        while not self.monitor.abortRequested():
+            if self.monitor.waitForAbort(1):
+                # Abort was requested while waiting.
+                self.shutdown()
+                break
 
 
-	def shutdown(self):
-		self.serverClient.endSession(self.sessionId)
+    def shutdown(self):
+        self.serverClient.endSession(self.sessionId)
 
 if __name__ == '__main__':
-    	service = Service()
-	service.start()
+    service = Service()
+    service.start()
 
