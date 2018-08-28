@@ -17,8 +17,15 @@
     <platform>all</platform>
     <license>MIT</license>
     <forum></forum>
-    <website></website>
+    <website>https://github.com/scoot-software</website>
     <email>scoot.software@gmail.com</email>
-    <source></source>
+    <source>https://github.com/scoot-software/sms-kodi-addons</source>
+    <news>v0.0.6
+- Updated for SMS Server v0.6.0
+- Fixed issue with service causing Kodi to hang when quitting</news>
+    <assets>
+      <icon>resources/icon.png</icon>
+      <fanart>resources/fanart.png</fanart>
+    </assets>
   </extension>
 </addon>
