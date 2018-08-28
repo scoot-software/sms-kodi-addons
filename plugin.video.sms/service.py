@@ -24,13 +24,16 @@
 ################################################################################################
 
 from operator import itemgetter
-from bottle import Bottle, ServerAdapter, run
+from bottle import route, run
+from threading import Thread
 import os
 import sys
 import urllib
 import urlparse
 import requests
 import time
+import uuid
+import json
 import xbmcaddon
 import xbmcgui
 import xbmcplugin
@@ -45,17 +48,26 @@ sys.path.append(libs)
 
 ################################################################################################
 
+import sms
 import client
-import uuid
+import bottle_ext
 
 ################################################################################################
+
+CLIENT = 4
+FORMATS = [1,2,3,5,6,7,8,9,10,11,12,13,14,15,16,17,18]
+CODECS = [10,11,12,13,20,30,31,32,40,1000,1001,1002,1003,1004,1005,1006,1007,1009,1010,1011,2000,2001,2002,2003,2004]
+MCH_CODECS = [1000,1001,1002,1003,1004,1005,1006,1009,1010,1011]
+FORMAT = 9
 
 class Service(object):
 
     settings = None
     serverClient = None
     sessionId = None
+    clientProfile = None
     controller = None
+    server = None
     monitor = None
 
     def start(self):
@@ -64,6 +76,11 @@ class Service(object):
             'serverUrl': addon.getSetting('serverUrl') + ':' + addon.getSetting('serverPort'), \
             'username': addon.getSetting('username'), \
             'password': addon.getSetting('password'), \
+            'audioQuality': addon.getSetting('audioQuality')[:1], \
+            'videoQuality': addon.getSetting('videoQuality')[:1], \
+            'maxSampleRate': addon.getSetting('maxSampleRate'), \
+            'multichannel': addon.getSetting('multichannel'), \
+            'directPlay': addon.getSetting('directPlay'),
             'servicePort': addon.getSetting('servicePort')}
 
         # SMS Server Client
@@ -71,16 +88,22 @@ class Service(object):
 
         # Session ID
         self.sessionId = uuid.uuid4()
-        self.serverClient.addSession(self.sessionId)
+        
+        # Client Profile
+        self.clientProfile = sms.ClientProfile(CLIENT, FORMAT, FORMATS, CODECS, None, self.settings['videoQuality'], self.settings['audioQuality'], 0, self.settings['maxSampleRate'], self.settings['directPlay'])
+        
+        if self.settings['multichannel'] == 'true':
+            self.clientProfile.mchCodecs = MCH_CODECS
+        
+        self.serverClient.addSession(self.sessionId, self.clientProfile.__dict__)
 
         # REST Service
-        self.controller = Bottle()
-
-        @self.controller.route('/session')
+        @route('/session')
         def getSession():
             return str(self.sessionId)
-
-        run(self.controller, host='localhost', port=self.settings['servicePort'])
+            
+        self.server = bottle_ext.WSGIServer(host='localhost', port=self.settings['servicePort'])
+        Thread(target=self.rest).start()
 
         # Main loop
         self.monitor = xbmc.Monitor()
@@ -90,10 +113,13 @@ class Service(object):
                 # Abort was requested while waiting.
                 self.shutdown()
                 break
-
-
+    
     def shutdown(self):
         self.serverClient.endSession(self.sessionId)
+        self.server.shutdown()
+        
+    def rest(self):
+        run(server=self.server)
 
 if __name__ == '__main__':
     service = Service()

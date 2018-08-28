@@ -25,12 +25,6 @@
 import requests
 import xbmcgui
 
-CLIENT = "kodi"
-FILES = "3gp,aac,avi,flac,m4a,m4v,mka,mkv,mp3,mp4,mpeg,mpg,oga,ogg,wav,webm"
-CODECS = "h264,hevc,vp8,mpeg2video,vc1,mp3,aac,flac,ac3,vorbis,alac,dts,pcm,truehd,subrip,webvtt,dvb,dvd,pgs"
-MCH_CODECS = "ac3,aac,dts,flac,pcm,truehd,vorbis"
-FORMAT = "hls"
-
 class RESTClient(object):
     settings = None
 
@@ -91,46 +85,12 @@ class RESTClient(object):
         except requests.exceptions.RequestException:
             xbmcgui.Dialog().notification('mediaStreamer', 'There was an error fetching content from the server.', xbmcgui.NOTIFICATION_ERROR, 5000)
 
-    def initialiseStream(self, session, id, type):
+    def endJob(self, sid, id):
+        response = requests.get(self.settings['serverUrl'] + '/session/end/' + str(sid) + '/' + str(id), auth=(self.settings['username'], self.settings['password']))
+
+    def addSession(self, id, profile):
         try:
-            url = self.settings['serverUrl'] + '/stream/initialise/' + str(session) + '/' + str(id)
-            url += '?client=' + CLIENT            
-            url += '&files=' + FILES
-            url += '&codecs=' + CODECS
-            
-            if self.settings['multichannel'] == 'true':
-                url += '&mchcodecs=' + MCH_CODECS
-
-            url += '&format=' + FORMAT
-
-            if type == 0:
-                url += '&quality=' + self.settings['audioQuality']
-            elif type == 1:
-                url += '&quality=' + self.settings['videoQuality']
-
-            url += '&samplerate=' + self.settings['maxSampleRate']
-            url += '&direct=' + self.settings['directPlay']
-
-            response = requests.get(url, auth=(self.settings['username'], self.settings['password']))
-            data = response.json()
-            return data
-        except requests.exceptions.RequestException:
-            xbmcgui.Dialog().notification('mediaStreamer', 'There was an error initialising the stream.', xbmcgui.NOTIFICATION_ERROR, 5000)
-
-    def endJob(self, id):
-        response = requests.get(self.settings['serverUrl'] + '/job/end/' + str(id), auth=(self.settings['username'], self.settings['password']))
-
-    def createSession(self):
-        try:
-            response = requests.get(self.settings['serverUrl'] + '/session/create', auth=(self.settings['username'], self.settings['password']))
-            data = response.text
-            return data
-        except requests.exceptions.RequestException:
-            xbmcgui.Dialog().notification('mediaStreamer', 'There was an error creating a new session.', xbmcgui.NOTIFICATION_ERROR, 5000)
-
-    def addSession(self, id):
-        try:
-            response = requests.get(self.settings['serverUrl'] + '/session/add/' + str(id), auth=(self.settings['username'], self.settings['password']))
+            response = requests.get(self.settings['serverUrl'] + '/session/add?id=' + str(id), json=profile, auth=(self.settings['username'], self.settings['password']))
         except requests.exceptions.RequestException:
             xbmcgui.Dialog().notification('mediaStreamer', 'There was an error fetching content from the server.', xbmcgui.NOTIFICATION_ERROR, 5000)
 

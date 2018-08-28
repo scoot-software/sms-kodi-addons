@@ -68,9 +68,9 @@ def getMediaElementType(type):
     if type is None:
         return -1
     elif type[0] == 'audio':
-        return 0
-    elif type[0] == 'video':
         return 1
+    elif type[0] == 'video':
+        return 2
 
 
 def mainMenu():
@@ -192,7 +192,7 @@ def parseMediaElements(elements, altTitle):
                 if not element['collection'] in element['title']:
                     title = element['collection'] + ' - ' + element['title']
                 
-            if elementType == 1:
+            if elementType == 2:
                 url = buildUrl({'content_type': contentType[0], 'mode': 'video_element','id': element['id']})
                 item = xbmcgui.ListItem(title, iconImage='DefaultVideo.png')
                 item.setContentLookup(0)
@@ -232,50 +232,56 @@ def parseMediaElements(elements, altTitle):
                                             url=url,
                                             listitem=item)
 
-            elif elementType == 2:
-                directoryType = element['directoryType']
+            elif elementType == 4:
+                if 'directoryType' in element:
+                    directoryType = element['directoryType']
+                else:
+                    directoryType = 0
 
-                if directoryType >= 1:
-                    url = buildUrl({'content_type': contentType[0], 'mode': 'directory_element','id': element['id']})
-                    item = xbmcgui.ListItem(title,iconImage='DefaultFolder.png')
-                    item.setProperty("IsPlayable", "false")
-                    item.setInfo('video', { 'title': element['title'] })
+                # Ignore audio directories
+                if directoryType == 1:
+                    continue
                     
-                    if directoryType == 1:
-                        if 'year' in element:
-                            item.setInfo('video', { 'year': str(element['year']) })
+                url = buildUrl({'content_type': contentType[0], 'mode': 'directory_element','id': element['id']})
+                item = xbmcgui.ListItem(title,iconImage='DefaultFolder.png')
+                item.setProperty("IsPlayable", "false")
+                item.setInfo('video', { 'title': element['title'] })
+                    
+                if directoryType == 2:
+                    if 'year' in element:
+                        item.setInfo('video', { 'year': str(element['year']) })
             
-                        if 'rating' in element:
-                            item.setInfo('video', { 'rating': element['rating'] })
+                    if 'rating' in element:
+                        item.setInfo('video', { 'rating': element['rating'] })
 
-                        if 'tagline' in element:
-                            item.setInfo('video', { 'tagline': element['tagline'] })
+                    if 'tagline' in element:
+                        item.setInfo('video', { 'tagline': element['tagline'] })
 
-                        if 'description' in element:
-                            item.setInfo('video', { 'plot': element['description'] })
+                    if 'description' in element:
+                        item.setInfo('video', { 'plot': element['description'] })
 
-                        if 'certificate' in element:
-                            item.setInfo('video', { 'mpaa': element['certificate'] })
+                    if 'certificate' in element:
+                        item.setInfo('video', { 'mpaa': element['certificate'] })
 
-                        if 'genre' in element:
-                            item.setInfo('video', { 'genre': element['genre'] })
+                    if 'genre' in element:
+                        item.setInfo('video', { 'genre': element['genre'] })
 
-                        if 'collection' in element:
-                            item.setInfo('video', { 'set': element['collection'] })
+                    if 'collection' in element:
+                        item.setInfo('video', { 'set': element['collection'] })
 
-                    item.setArt({ 'poster': sms_settings['serverUrl'] + '/image/' + element['id'] + '/cover', 'fanart' : sms_settings['serverUrl'] + '/image/' + element['id'] + '/fanart?scale=' + str(xbmcgui.Window().getWidth()) })
+                item.setArt({ 'poster': sms_settings['serverUrl'] + '/image/' + element['id'] + '/cover', 'fanart' : sms_settings['serverUrl'] + '/image/' + element['id'] + '/fanart?scale=' + str(xbmcgui.Window().getWidth()) })
 
-                    xbmcplugin.addDirectoryItem(handle=addonHandle,
-                                                url=url,
-                                                listitem=item,
-                                                isFolder=True)
+                xbmcplugin.addDirectoryItem(handle=addonHandle,
+                                            url=url,
+                                            listitem=item,
+                                            isFolder=True)
 
         # Audio Mode
         elif contentType[0] == 'audio':
             if altTitle and 'artist' in element:
                 title = element['artist'] + ' - ' + element['title']
 
-            if elementType == 0:
+            if elementType == 1:
                 url = buildUrl({'content_type': contentType[0], 'mode': 'audio_element','id': element['id']})
                 item = xbmcgui.ListItem(title, iconImage='DefaultAudio.png')
                 item.setContentLookup(0)
@@ -312,44 +318,46 @@ def parseMediaElements(elements, altTitle):
                                             url=url,
                                             listitem=item)
 
-            elif elementType == 2:
-                directoryType = element['directoryType']
+            elif elementType == 4:
+                if 'directoryType' in element:
+                    directoryType = element['directoryType']
+                else:
+                    directoryType = 0
 
-                if directoryType == 0 or directoryType >= 2:
-                    item = xbmcgui.ListItem(title, iconImage='DefaultFolder.png')
-                    item.setProperty("IsPlayable", "false")
-                    url = buildUrl({'content_type': contentType[0], 'mode': 'directory_element','id': element['id']})
+                # Ignore video directories
+                if directoryType == 2:
+                    continue
+                    
+                item = xbmcgui.ListItem(title, iconImage='DefaultFolder.png')
+                item.setProperty("IsPlayable", "false")
+                url = buildUrl({'content_type': contentType[0], 'mode': 'directory_element','id': element['id']})
 
-                    if directoryType == 0:
-                        item.setInfo('music', { 'title': element['title'] })
+                if directoryType == 1:
+                    item.setInfo('music', { 'title': element['title'] })
 
-                        if 'artist' in element:
-                            item.setInfo('music', { 'artist': element['artist'] })
+                    if 'artist' in element:
+                        item.setInfo('music', { 'artist': element['artist'] })
 
-                        if 'year' in element:
-                            item.setInfo('music', { 'year': str(element['year']) })
+                    if 'year' in element:
+                        item.setInfo('music', { 'year': str(element['year']) })
                 
-                    item.setArt({ 'thumb': sms_settings['serverUrl'] + '/image/' + element['id'] + '/cover', 'poster': sms_settings['serverUrl'] + '/image/' + element['id'] + '/cover', 'fanart' : sms_settings['serverUrl'] + '/image/' + element['id'] + '/fanart?scale=' + str(xbmcgui.Window().getWidth()) })
+                item.setArt({ 'thumb': sms_settings['serverUrl'] + '/image/' + element['id'] + '/cover', 'poster': sms_settings['serverUrl'] + '/image/' + element['id'] + '/cover', 'fanart' : sms_settings['serverUrl'] + '/image/' + element['id'] + '/fanart?scale=' + str(xbmcgui.Window().getWidth()) })
 
-                    xbmcplugin.addDirectoryItem(handle=addonHandle,
-                                                url=url,
-                                                listitem=item,
-                                                isFolder=True)
+                xbmcplugin.addDirectoryItem(handle=addonHandle,
+                                            url=url,
+                                            listitem=item,
+                                            isFolder=True)
 
     xbmcplugin.endOfDirectory(addonHandle)
 
 def playVideo():
     id = arguments.get('id', None)[0]
-    sms_client.addSession(session)
-    profile = sms_client.initialiseStream(session, id, 1)
     element = sms_client.getMediaElement(id)
-    url = sms_settings['serverUrl'] + '/stream/' + str(profile['id'])
+    url = sms_settings['serverUrl'] + '/stream/' + str(session) + '/' + str(id)
 
     item = xbmcgui.ListItem(element['title'], path=url, iconImage="DefaultVideo.png")
     item.setArt({ 'thumb': sms_settings['serverUrl'] + '/image/' + element['id'] + '/thumbnail', 'poster': sms_settings['serverUrl'] + '/image/' + element['id'] + '/cover', 'fanart' : sms_settings['serverUrl'] + '/image/' + element['id'] + '/fanart?scale=' + str(xbmcgui.Window().getWidth()) })
     item.setInfo('video', { 'title': element['title'] })
-    item.setMimeType(profile['mimeType'])
-    item.setContentLookup(0)
 
     if 'rating' in element:
         item.setInfo('video', { 'rating': element['rating'] })
@@ -384,21 +392,17 @@ def playVideo():
     player.monitorPlayback(url, addonUrl)
 
     # End job
-    sms_client.endJob(profile['id'])
+    sms_client.endJob(session, id)
 
     return
 
 def playAudio():
     id = arguments.get('id', None)[0]
-    sms_client.addSession(session)
-    profile = sms_client.initialiseStream(session, id, 0)
     element = sms_client.getMediaElement(id)
-    url = sms_settings['serverUrl'] + '/stream/' + str(profile['id'])
+    url = sms_settings['serverUrl'] + '/stream/' + str(session) + '/' + str(id)
     
     item = xbmcgui.ListItem(element['title'], path=url, iconImage="DefaultAudio.png")
-    item.setContentLookup(0)
     item.setInfo('music', { 'title': element['title'] })
-    item.setMimeType(profile['mimeType'])
     item.setArt({ 'thumb': sms_settings['serverUrl'] + '/image/' + str(id) + '/cover', 'fanart' : sms_settings['serverUrl'] + '/image/' + element['id'] + '/fanart?scale=' + str(xbmcgui.Window().getWidth()) })
         
     if 'trackNumber' in element:
@@ -431,7 +435,7 @@ def playAudio():
     player.monitorPlayback(url, addonUrl)
 
     # End job
-    sms_client.endJob(profile['id'])
+    sms_client.endJob(session, id)
 
     return
 
@@ -475,8 +479,6 @@ if __name__ == '__main__':
 
     # Session ID
     session = serviceClient.getSession()
-
-    xbmc.log(str(session), level=xbmc.LOGNOTICE)
 
     # Addon Routing
     contentType = arguments.get('content_type', None)
