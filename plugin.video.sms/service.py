@@ -28,6 +28,7 @@ from bottle import route, run
 from threading import Thread
 import os
 import sys
+import copy
 import urllib
 import urlparse
 import requests
@@ -61,19 +62,11 @@ MCH_CODECS = [1000,1001,1002,1003,1004,1005,1006,1009,1010,1011]
 FORMAT = 9
 
 class Service(object):
-
-    settings = None
-    serverClient = None
-    sessionId = None
-    clientProfile = None
-    controller = None
-    server = None
-    monitor = None
-
-    def start(self):
+    def __init__(self):
         # Settings
         self.settings = {\
-            'serverUrl': addon.getSetting('serverUrl') + ':' + addon.getSetting('serverPort'), \
+            'serverUrl': addon.getSetting('serverUrl'), \
+            'serverPort': addon.getSetting('serverPort'), \
             'username': addon.getSetting('username'), \
             'password': addon.getSetting('password'), \
             'audioQuality': addon.getSetting('audioQuality')[:1], \
@@ -85,29 +78,33 @@ class Service(object):
 
         # SMS Server Client
         self.serverClient = client.RESTClient(self.settings)
-
+        
         # Session ID
         self.sessionId = uuid.uuid4()
         
         # Client Profile
-        self.clientProfile = sms.ClientProfile(CLIENT, FORMAT, FORMATS, CODECS, None, self.settings['videoQuality'], self.settings['audioQuality'], 0, self.settings['maxSampleRate'], self.settings['directPlay'])
+        self.updateClientProfile()
         
-        if self.settings['multichannel'] == 'true':
-            self.clientProfile.mchCodecs = MCH_CODECS
+        # Monitor
+        self.monitor = SMSMonitor(settings_action = self.updateSettings)
         
-        self.serverClient.addSession(self.sessionId, self.clientProfile.__dict__)
-
         # REST Service
         @route('/session')
         def getSession():
             return str(self.sessionId)
             
         self.server = bottle_ext.WSGIServer(host='localhost', port=self.settings['servicePort'])
-        Thread(target=self.rest).start()
+        
+        self.start()
 
-        # Main loop
-        self.monitor = xbmc.Monitor()
+    def start(self):
+        # Initialise session
+        self.serverClient.addSession(self.sessionId, self.clientProfile.__dict__)
+        
+        # Start REST server
+        Thread(target=self.rest).start()
      
+        # Main Loop
         while not self.monitor.abortRequested():
             if self.monitor.waitForAbort(1):
                 # Abort was requested while waiting.
@@ -120,8 +117,58 @@ class Service(object):
         
     def rest(self):
         run(server=self.server)
+        
+    def updateSettings(self):
+        # Make a copy of our existing settings
+        old_settings = copy.deepcopy(self.settings)
+        
+        self.settings = {\
+            'serverUrl': addon.getSetting('serverUrl'), \
+            'serverPort': addon.getSetting('serverPort'), \
+            'username': addon.getSetting('username'), \
+            'password': addon.getSetting('password'), \
+            'audioQuality': addon.getSetting('audioQuality')[:1], \
+            'videoQuality': addon.getSetting('videoQuality')[:1], \
+            'maxSampleRate': addon.getSetting('maxSampleRate'), \
+            'multichannel': addon.getSetting('multichannel'), \
+            'directPlay': addon.getSetting('directPlay'),
+            'servicePort': addon.getSetting('servicePort')}
+            
+        # Update client profile
+        self.updateClientProfile()
+            
+        # Check server URL and port
+        if old_settings['serverUrl'] != self.settings['serverUrl'] or old_settings['serverPort'] != self.settings['serverPort']:
+            # Create a new REST client and add session
+            self.serverClient = client.RESTClient(self.settings)
+            self.serverClient.addSession(self.sessionId, self.clientProfile.__dict__)
+        else:
+            # Update client profile
+            self.serverClient.updateClientProfile(self.sessionId, self.clientProfile.__dict__)
+            
+        # Check service port
+        if old_settings['servicePort'] != self.settings['servicePort']:
+            # Shutdown existing REST server
+            self.server.shutdown()
+            
+            # Create new REST server
+            self.server = bottle_ext.WSGIServer(host='localhost', port=self.settings['servicePort'])
+            Thread(target=self.rest).start()
+            
+    def updateClientProfile(self):
+        self.clientProfile = sms.ClientProfile(CLIENT, FORMAT, FORMATS, CODECS, None, self.settings['videoQuality'], self.settings['audioQuality'], 0, self.settings['maxSampleRate'], self.settings['directPlay'])
+        
+        if self.settings['multichannel'] == 'true':
+            self.clientProfile.mchCodecs = MCH_CODECS
+        
+class SMSMonitor(xbmc.Monitor):
+     def __init__(self, *args, **kwargs):
+         xbmc.Monitor.__init__(self)
+         self.settingsAction = kwargs['settings_action']
+         
+     def onSettingsChanged(self):
+         self.settingsAction()
 
 if __name__ == '__main__':
-    service = Service()
-    service.start()
+    Service()
 
