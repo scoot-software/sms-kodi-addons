@@ -85,6 +85,22 @@ class RESTClient(object):
         except requests.exceptions.RequestException:
             xbmcgui.Dialog().notification('mediaStreamer', 'There was an error fetching content from the server.', xbmcgui.NOTIFICATION_ERROR, 5000)
 
+    def getPlaylists(self):
+        try:
+            response = requests.get(self.settings['serverUrl'] + ':' + self.settings['serverPort'] + '/playlist', auth=(self.settings['username'], self.settings['password']))
+            data = response.json()
+            return data
+        except requests.exceptions.RequestException:
+            xbmcgui.Dialog().notification('mediaStreamer', 'There was an error fetching playlists from the server.', xbmcgui.NOTIFICATION_ERROR, 5000)
+            
+    def getPlaylistContents(self, id):
+        try:
+            response = requests.get(self.settings['serverUrl'] + ':' + self.settings['serverPort'] + '/playlist/' + str(id) + '/contents', auth=(self.settings['username'], self.settings['password']))
+            data = response.json()
+            return data
+        except requests.exceptions.RequestException:
+            xbmcgui.Dialog().notification('mediaStreamer', 'There was an error fetching content from the server.', xbmcgui.NOTIFICATION_ERROR, 5000)
+    
     def endJob(self, sid, id):
         response = requests.get(self.settings['serverUrl'] + ':' + self.settings['serverPort']+ '/session/end/' + str(sid) + '/' + str(id), auth=(self.settings['username'], self.settings['password']))
 

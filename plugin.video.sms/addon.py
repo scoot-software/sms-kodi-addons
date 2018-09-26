@@ -143,6 +143,14 @@ def audioMenu():
                                 url=url,
                                 listitem=item,
                                 isFolder=True)
+                                
+    # Playlists
+    url = buildUrl({'mode': 'playlists', 'content_type': contentType[0]})
+    item = xbmcgui.ListItem('Playlists',iconImage='DefaultPlaylist.png')
+    xbmcplugin.addDirectoryItem(handle=addonHandle,
+                                url=url,
+                                listitem=item,
+                                isFolder=True)
 
     xbmcplugin.endOfDirectory(addonHandle)
 
@@ -168,6 +176,23 @@ def recentlyPlayedList():
 def recentlyAddedList():
     elements = sms_client.getRecentlyAddedElements(mediaElementType)
     parseMediaElements(elements, True)
+    
+def playlists():
+    playlists = sms_client.getPlaylists()
+    
+    for playlist in playlists:
+        url = buildUrl({'content_type': contentType[0], 'mode': 'playlist', 'id': playlist['id']})
+        item = xbmcgui.ListItem(playlist['name'],iconImage='DefaultPlaylist.png')
+        xbmcplugin.addDirectoryItem(handle=addonHandle,
+                                    url=url,
+                                    listitem=item,
+                                    isFolder=True)
+                                    
+    xbmcplugin.endOfDirectory(addonHandle)
+    
+def playlistContents():
+    elements = sms_client.getPlaylistContents(arguments.get('id', None)[0])
+    parseMediaElements(elements, False)
 
 def mediaFolderContents():
     elements = sms_client.getMediaFolderContents(arguments.get('id', None)[0])
@@ -500,6 +525,10 @@ if __name__ == '__main__':
         recentlyPlayedList()
     elif mode[0] == 'recently_added':
         recentlyAddedList()
+    elif mode[0] == 'playlists':
+        playlists()
+    elif mode[0] == 'playlist':
+        playlistContents()
     elif mode[0] == 'media_folder':
         mediaFolderContents()
     elif mode[0] == 'directory_element':
