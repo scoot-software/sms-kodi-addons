@@ -1,3 +1,10 @@
+[B]Version 0.0.6[/B]
+
+- Updated for SMS Server v0.6.0
+- DSD support
+- Playlist support
+- Fixed issue with service causing Kodi to hang when quitting
+
 [B]Version 0.0.5[/B]
 
 - Add support for latest server version

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.sms" name="Scoot Media Streamer" version="0.0.5" provider-name="Scott Ware">
+<addon id="plugin.video.sms" name="Scoot Media Streamer" version="0.0.6" provider-name="Scott Ware">
   <requires>
     <import addon="xbmc.python" version="2.25.0"/>
     <import addon="script.module.requests" version="2.19.1"/>
@@ -22,6 +22,8 @@
     <source>https://github.com/scoot-software/sms-kodi-addons</source>
     <news>v0.0.6
 - Updated for SMS Server v0.6.0
+- DSD support
+- Playlist support
 - Fixed issue with service causing Kodi to hang when quitting</news>
     <assets>
       <icon>resources/icon.png</icon>
