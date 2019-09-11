@@ -156,7 +156,10 @@ class Service(object):
             Thread(target=self.rest).start()
             
     def updateClientProfile(self):
-        self.clientProfile = sms.ClientProfile(CLIENT, FORMAT, FORMATS, CODECS, None, self.settings['videoQuality'], self.settings['audioQuality'], 0, self.settings['maxSampleRate'], self.settings['directPlay'])
+        # Get Kodi native settings
+        replaygain = json.loads(xbmc.executeJSONRPC('{ "jsonrpc": "2.0", "method": "Settings.GetSettingValue", "params":{"setting":"musicplayer.replaygaintype"}, "id":1 }'))["result"]["value"]
+        
+        self.clientProfile = sms.ClientProfile(CLIENT, FORMAT, FORMATS, CODECS, None, self.settings['videoQuality'], self.settings['audioQuality'], 0, self.settings['maxSampleRate'], sms.replaygain[replaygain], self.settings['directPlay'])
         
         if self.settings['multichannel'] == 'true':
             self.clientProfile.mchCodecs = MCH_CODECS

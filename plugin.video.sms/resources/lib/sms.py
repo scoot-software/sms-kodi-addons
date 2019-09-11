@@ -22,9 +22,12 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
+# ReplayGain mapping
+replaygain = {0:0, 1:2, 2:1}
+
 class ClientProfile:
     
-    def __init__(self, client, format, formats, codecs, mchCodecs, videoQuality, audioQuality, maxBitrate, maxSampleRate, directPlay):
+    def __init__(self, client, format, formats, codecs, mchCodecs, videoQuality, audioQuality, maxBitrate, maxSampleRate, replaygain, directPlay):
         self.client = client
         self.format = format
         self.formats = formats
@@ -34,4 +37,5 @@ class ClientProfile:
         self.audioQuality = audioQuality
         self.maxBitrate = maxBitrate
         self.maxSampleRate = maxSampleRate
+        self.replaygain = replaygain
         self.directPlay = directPlay
