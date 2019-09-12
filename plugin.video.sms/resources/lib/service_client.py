@@ -37,3 +37,10 @@ class ServiceClient(object):
             return data
         except requests.exceptions.RequestException:
             return None
+            
+    def update(self):
+        try:
+            response = requests.get('http://localhost:' + self.settings['servicePort'] + '/update')
+            return True
+        except requests.exceptions.RequestException:
+            return False

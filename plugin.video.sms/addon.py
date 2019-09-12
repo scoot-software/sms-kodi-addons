@@ -505,6 +505,9 @@ if __name__ == '__main__':
 
     # Session ID
     session = serviceClient.getSession()
+    
+    # Sync client settings with server
+    serviceClient.update()
 
     # Addon Routing
     contentType = arguments.get('content_type', None)

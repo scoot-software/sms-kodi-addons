@@ -93,6 +93,10 @@ class Service(object):
         def getSession():
             return str(self.sessionId)
             
+        @route('/update')
+        def update():
+            self.updateSettings()
+            
         self.server = bottle_ext.WSGIServer(host='localhost', port=self.settings['servicePort'])
         
         self.start()
@@ -119,8 +123,9 @@ class Service(object):
         run(server=self.server)
         
     def updateSettings(self):
-        # Make a copy of our existing settings
+        # Make a copy of our existing settings and client profile
         old_settings = copy.deepcopy(self.settings)
+        old_client_profile = copy.deepcopy(self.clientProfile)
         
         self.settings = {\
             'serverUrl': addon.getSetting('serverUrl'), \
@@ -142,7 +147,7 @@ class Service(object):
             # Create a new REST client and add session
             self.serverClient = client.RESTClient(self.settings)
             self.serverClient.addSession(self.sessionId, self.clientProfile.__dict__)
-        else:
+        elif old_client_profile.__dict__ != self.clientProfile.__dict__:
             # Update client profile
             self.serverClient.updateClientProfile(self.sessionId, self.clientProfile.__dict__)
             
