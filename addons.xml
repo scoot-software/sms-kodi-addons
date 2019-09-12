@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addons>
-<addon id="repository.sms" name="Scoot Media Streamer Kodi Addons" version="0.0.1" provider-name="Scott Ware">
+<addon id="repository.sms" name="Scoot Media Streamer Kodi Addons" version="0.0.2" provider-name="Scott Ware">
 	<extension point="xbmc.addon.repository" name="Scoot Media Streamer Addons Repository">
 		<info compressed="false">https://github.com/scoot-software/sms-kodi-addons/raw/master/addons.xml</info>
 		<checksum>https://github.com/scoot-software/sms-kodi-addons/raw/master/addons.xml.md5</checksum>
@@ -13,7 +13,7 @@
 	</extension>
 </addon>
 
-<addon id="plugin.video.sms" name="Scoot Media Streamer" version="0.0.6" provider-name="Scott Ware">
+<addon id="plugin.video.sms" name="Scoot Media Streamer" version="0.0.7" provider-name="Scott Ware">
   <requires>
     <import addon="xbmc.python" version="2.25.0"/>
     <import addon="script.module.requests" version="2.19.1"/>
@@ -34,11 +34,8 @@
     <website>https://github.com/scoot-software</website>
     <email>scoot.software@gmail.com</email>
     <source>https://github.com/scoot-software/sms-kodi-addons</source>
-    <news>v0.0.6
-- Updated for SMS Server v0.6.0
-- DSD support
-- Playlist support
-- Fixed issue with service causing Kodi to hang when quitting</news>
+    <news>v0.0.7
+- ReplayGain support</news>
     <assets>
       <icon>resources/icon.png</icon>
       <fanart>resources/fanart.png</fanart>

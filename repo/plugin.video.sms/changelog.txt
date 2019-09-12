@@ -1,3 +1,7 @@
+[B]Version 0.0.7[/B]
+
+- ReplayGain support
+
 [B]Version 0.0.6[/B]
 
 - Updated for SMS Server v0.6.0
