@@ -1,7 +1,0 @@
-[B]Version 0.0.2[/B]
-
-- New icon
-
-[B]Version 0.0.1[/B]
-
-- Initial release
