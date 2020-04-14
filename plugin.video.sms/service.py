@@ -24,7 +24,6 @@ import os
 import sys
 import copy
 import urllib
-import urlparse
 import requests
 import time
 import uuid
@@ -37,8 +36,8 @@ import xbmc
 ################################################################################################
 
 addon = xbmcaddon.Addon('plugin.video.sms')
-addon_path = addon.getAddonInfo('path').decode('utf-8')
-libs = xbmc.translatePath(os.path.join(addon_path, 'resources', 'lib')).decode('utf-8')
+addon_path = addon.getAddonInfo('path')
+libs = xbmc.translatePath(os.path.join(addon_path, 'resources', 'lib'))
 sys.path.append(libs)
 
 ################################################################################################
