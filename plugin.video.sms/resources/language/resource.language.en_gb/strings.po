@@ -61,7 +61,7 @@ msgstr ""
 
 msgctxt "#30023"
 msgid "Max Sample Rate (Hz)"
-msgstr = ""
+msgstr ""
 
 msgctxt "#30024"
 msgid "Enable Multichannel Audio"
