@@ -2,8 +2,8 @@
 <addon id="plugin.video.sms" name="Scoot Media Streamer" version="0.1.0" provider-name="Scott Ware">
   <requires>
     <import addon="xbmc.python" version="3.0.0"/>
-    <import addon="script.module.requests" version="2.22.0+matrix.1"/>
-    <import addon="script.module.bottle" version="0.12.18+matrix.2"/>
+    <import addon="script.module.requests" version="2.22.0"/>
+    <import addon="script.module.bottle" version="0.12.18"/>
   </requires>
   <extension point="xbmc.python.pluginsource" library="addon.py">
     <provides>audio video</provides>
