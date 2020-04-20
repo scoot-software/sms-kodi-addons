@@ -15,7 +15,7 @@ class ServiceClient(object):
 
     def getSession(self):
         try:
-            response = requests.get('http://localhost:' + self.settings['servicePort'] + '/session')
+            response = requests.get('http://localhost:' + str(self.settings['servicePort']) + '/session')
             data = response.text
             return data
         except requests.exceptions.RequestException:
@@ -23,7 +23,7 @@ class ServiceClient(object):
             
     def update(self):
         try:
-            response = requests.get('http://localhost:' + self.settings['servicePort'] + '/update')
+            response = requests.get('http://localhost:' + str(self.settings['servicePort']) + '/update')
             return True
         except requests.exceptions.RequestException:
             return False

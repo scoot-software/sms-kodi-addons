@@ -22,7 +22,7 @@ class RESTClient(object):
 
     def getRecentlyAddedElements(self, type):
         try:
-            response = requests.get(self.settings['serverUrl'] + ':' + self.settings['serverPort'] + '/media/recentlyadded/50?type=' + str(type), auth=(self.settings['username'], self.settings['password']))
+            response = requests.get(self.settings['serverUrl'] + ':' + str(self.settings['serverPort']) + '/media/recentlyadded/50?type=' + str(type), auth=(self.settings['username'], self.settings['password']))
             data = response.json()
             return data
         except requests.exceptions.RequestException:
@@ -30,7 +30,7 @@ class RESTClient(object):
 
     def getRecentlyPlayedElements(self, type):
         try:
-            response = requests.get(self.settings['serverUrl'] + ':' + self.settings['serverPort'] + '/media/recentlyplayed/50?type=' + str(type), auth=(self.settings['username'], self.settings['password']))
+            response = requests.get(self.settings['serverUrl'] + ':' + str(self.settings['serverPort']) + '/media/recentlyplayed/50?type=' + str(type), auth=(self.settings['username'], self.settings['password']))
             data = response.json()
             return data
         except requests.exceptions.RequestException:
@@ -38,7 +38,7 @@ class RESTClient(object):
 
     def getMediaFolders(self):
         try:
-            response = requests.get(self.settings['serverUrl'] + ':' + self.settings['serverPort'] + '/media/folder', auth=(self.settings['username'], self.settings['password']))
+            response = requests.get(self.settings['serverUrl'] + ':' + str(self.settings['serverPort']) + '/media/folder', auth=(self.settings['username'], self.settings['password']))
             data = response.json()
             return data
         except requests.exceptions.RequestException:
@@ -46,7 +46,7 @@ class RESTClient(object):
 
     def getMediaFolderContents(self, id):
         try:
-            response = requests.get(self.settings['serverUrl'] + ':' + self.settings['serverPort'] + '/media/folder/' + str(id) + '/contents', auth=(self.settings['username'], self.settings['password']))
+            response = requests.get(self.settings['serverUrl'] + ':' + str(self.settings['serverPort']) + '/media/folder/' + str(id) + '/contents', auth=(self.settings['username'], self.settings['password']))
             data = response.json()
             return data
         except requests.exceptions.RequestException:
@@ -54,7 +54,7 @@ class RESTClient(object):
 
     def getDirectoryElementContents(self, id):
         try:
-            response = requests.get(self.settings['serverUrl'] + ':' + self.settings['serverPort'] + '/media/' + str(id) + '/contents', auth=(self.settings['username'], self.settings['password']))
+            response = requests.get(self.settings['serverUrl'] + ':' + str(self.settings['serverPort']) + '/media/' + str(id) + '/contents', auth=(self.settings['username'], self.settings['password']))
             data = response.json()
             return data
         except requests.exceptions.RequestException:
@@ -62,7 +62,7 @@ class RESTClient(object):
 
     def getMediaElement(self, id):
         try:
-            response = requests.get(self.settings['serverUrl'] + ':' + self.settings['serverPort'] + '/media/' + str(id), auth=(self.settings['username'], self.settings['password']))
+            response = requests.get(self.settings['serverUrl'] + ':' + str(self.settings['serverPort']) + '/media/' + str(id), auth=(self.settings['username'], self.settings['password']))
             data = response.json()
             return data
         except requests.exceptions.RequestException:
@@ -70,7 +70,7 @@ class RESTClient(object):
 
     def getPlaylists(self):
         try:
-            response = requests.get(self.settings['serverUrl'] + ':' + self.settings['serverPort'] + '/playlist', auth=(self.settings['username'], self.settings['password']))
+            response = requests.get(self.settings['serverUrl'] + ':' + str(self.settings['serverPort']) + '/playlist', auth=(self.settings['username'], self.settings['password']))
             data = response.json()
             return data
         except requests.exceptions.RequestException:
@@ -78,33 +78,33 @@ class RESTClient(object):
             
     def getPlaylistContents(self, id):
         try:
-            response = requests.get(self.settings['serverUrl'] + ':' + self.settings['serverPort'] + '/playlist/' + str(id) + '/contents', auth=(self.settings['username'], self.settings['password']))
+            response = requests.get(self.settings['serverUrl'] + ':' + str(self.settings['serverPort']) + '/playlist/' + str(id) + '/contents', auth=(self.settings['username'], self.settings['password']))
             data = response.json()
             return data
         except requests.exceptions.RequestException:
             xbmcgui.Dialog().notification("30100", "30104", xbmcgui.NOTIFICATION_ERROR, 5000)
     
     def endJob(self, sid, id):
-        response = requests.delete(self.settings['serverUrl'] + ':' + self.settings['serverPort']+ '/session/end/' + str(sid) + '/' + str(id), auth=(self.settings['username'], self.settings['password']))
+        response = requests.delete(self.settings['serverUrl'] + ':' + str(self.settings['serverPort']) + '/session/end/' + str(sid) + '/' + str(id), auth=(self.settings['username'], self.settings['password']))
 
     def addSession(self, id, profile):
         try:
-            response = requests.post(self.settings['serverUrl'] + ':' + self.settings['serverPort'] + '/session/add?id=' + str(id), json=profile, auth=(self.settings['username'], self.settings['password']))
+            response = requests.post(self.settings['serverUrl'] + ':' + str(self.settings['serverPort']) + '/session/add?id=' + str(id), json=profile, auth=(self.settings['username'], self.settings['password']))
         except requests.exceptions.RequestException:
             xbmcgui.Dialog().notification("30100", "30104", xbmcgui.NOTIFICATION_ERROR, 5000)
             
     def updateClientProfile(self, id, profile):
         try:
-            response = requests.post(self.settings['serverUrl'] + ':' + self.settings['serverPort'] + '/session/update/' + str(id), json=profile, auth=(self.settings['username'], self.settings['password']))
+            response = requests.post(self.settings['serverUrl'] + ':' + str(self.settings['serverPort']) + '/session/update/' + str(id), json=profile, auth=(self.settings['username'], self.settings['password']))
         except requests.exceptions.RequestException:
             xbmcgui.Dialog().notification("30100", "30104", xbmcgui.NOTIFICATION_ERROR, 5000)
 
     def endSession(self, id):
-        response = requests.delete(self.settings['serverUrl'] + ':' + self.settings['serverPort'] + '/session/end/' + str(id), auth=(self.settings['username'], self.settings['password']))
+        response = requests.delete(self.settings['serverUrl'] + ':' + str(self.settings['serverPort']) + '/session/end/' + str(id), auth=(self.settings['username'], self.settings['password']))
 
 def testUrl(settings):
     try:
-        response = requests.get(settings['serverUrl'] + ':' + settings['serverPort'] + '/settings/version', auth=(settings['username'], settings['password']), timeout=2.0)
+        response = requests.get(settings['serverUrl'] + ':' + str(settings['serverPort']) + '/settings/version', auth=(settings['username'], settings['password']), timeout=2.0)
         return True
     except requests.exceptions.RequestException:
         return False

@@ -48,16 +48,16 @@ class Service(object):
     def __init__(self):
         # Settings
         self.settings = {\
-            'serverUrl': addon.getSetting('serverUrl'), \
-            'serverPort': addon.getSetting('serverPort'), \
-            'username': addon.getSetting('username'), \
-            'password': addon.getSetting('password'), \
-            'audioQuality': addon.getSetting('audioQuality')[:1], \
-            'videoQuality': addon.getSetting('videoQuality')[:1], \
-            'maxSampleRate': addon.getSetting('maxSampleRate'), \
-            'multichannel': addon.getSetting('multichannel'), \
-            'directPlay': addon.getSetting('directPlay'),
-            'servicePort': addon.getSetting('servicePort')}
+            'serverUrl': addon.getSettingString('serverUrl'), \
+            'serverPort': addon.getSettingInt('serverPort'), \
+            'username': addon.getSettingString('username'), \
+            'password': addon.getSettingString('password'), \
+            'audioQuality': addon.getSettingInt('audioQuality'), \
+            'videoQuality': addon.getSettingInt('videoQuality'), \
+            'maxSampleRate': addon.getSettingString('maxSampleRate'), \
+            'multichannel': addon.getSettingBool('multichannel'), \
+            'directPlay': addon.getSettingBool('directPlay'),
+            'servicePort': addon.getSettingInt('servicePort')}
 
         # SMS Server Client
         self.serverClient = client.RESTClient(self.settings)
@@ -111,16 +111,16 @@ class Service(object):
         old_client_profile = copy.deepcopy(self.clientProfile)
         
         self.settings = {\
-            'serverUrl': addon.getSetting('serverUrl'), \
-            'serverPort': addon.getSetting('serverPort'), \
-            'username': addon.getSetting('username'), \
-            'password': addon.getSetting('password'), \
-            'audioQuality': addon.getSetting('audioQuality')[:1], \
-            'videoQuality': addon.getSetting('videoQuality')[:1], \
-            'maxSampleRate': addon.getSetting('maxSampleRate'), \
-            'multichannel': addon.getSetting('multichannel'), \
-            'directPlay': addon.getSetting('directPlay'),
-            'servicePort': addon.getSetting('servicePort')}
+            'serverUrl': addon.getSettingString('serverUrl'), \
+            'serverPort': addon.getSettingInt('serverPort'), \
+            'username': addon.getSettingString('username'), \
+            'password': addon.getSettingString('password'), \
+            'audioQuality': addon.getSettingInt('audioQuality'), \
+            'videoQuality': addon.getSettingInt('videoQuality'), \
+            'maxSampleRate': addon.getSettingString('maxSampleRate'), \
+            'multichannel': addon.getSettingBool('multichannel'), \
+            'directPlay': addon.getSettingBool('directPlay'),
+            'servicePort': addon.getSettingInt('servicePort')}
             
         # Update client profile
         self.updateClientProfile()
@@ -149,7 +149,7 @@ class Service(object):
         
         self.clientProfile = sms.ClientProfile(CLIENT, FORMAT, FORMATS, CODECS, None, self.settings['videoQuality'], self.settings['audioQuality'], 0, self.settings['maxSampleRate'], sms.replaygain[replaygain], self.settings['directPlay'])
         
-        if self.settings['multichannel'] == 'true':
+        if self.settings['multichannel'] == True:
             self.clientProfile.mchCodecs = MCH_CODECS
         
 class SMSMonitor(xbmc.Monitor):

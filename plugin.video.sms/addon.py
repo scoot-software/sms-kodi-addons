@@ -245,7 +245,7 @@ def parseMediaElements(elements, altTitle):
                     else:
                         item.setInfo('video', { 'duration': element['duration'] })
 
-                item.setArt({ 'icon' : 'DefaultVideo.png', 'thumb': sms_settings['serverUrl'] + ':' + sms_settings['serverPort'] + '/image/' + element['id'] + '/thumbnail', 'poster': sms_settings['serverUrl'] + ':' + sms_settings['serverPort'] + '/image/' + element['id'] + '/cover', 'fanart' : sms_settings['serverUrl'] + ':' + sms_settings['serverPort'] + '/image/' + element['id'] + '/fanart?scale=' + str(xbmcgui.Window().getWidth()) })
+                item.setArt({ 'icon' : 'DefaultVideo.png', 'thumb': sms_settings['serverUrl'] + ':' + str(sms_settings['serverPort']) + '/image/' + element['id'] + '/thumbnail', 'poster': sms_settings['serverUrl'] + ':' + str(sms_settings['serverPort']) + '/image/' + element['id'] + '/cover', 'fanart' : sms_settings['serverUrl'] + ':' + str(sms_settings['serverPort']) + '/image/' + element['id'] + '/fanart?scale=' + str(xbmcgui.Window().getWidth()) })
 
                 xbmcplugin.addDirectoryItem(handle=addonHandle,
                                             url=url,
@@ -288,7 +288,7 @@ def parseMediaElements(elements, altTitle):
                     if 'collection' in element:
                         item.setInfo('video', { 'set': element['collection'] })
 
-                item.setArt({ 'icon' : 'DefaultFolder.png', 'poster': sms_settings['serverUrl'] + ':' + sms_settings['serverPort'] + '/image/' + element['id'] + '/cover', 'fanart' : sms_settings['serverUrl'] + ':' + sms_settings['serverPort'] + '/image/' + element['id'] + '/fanart?scale=' + str(xbmcgui.Window().getWidth()) })
+                item.setArt({ 'icon' : 'DefaultFolder.png', 'poster': sms_settings['serverUrl'] + ':' + str(sms_settings['serverPort']) + '/image/' + element['id'] + '/cover', 'fanart' : sms_settings['serverUrl'] + ':' + str(sms_settings['serverPort']) + '/image/' + element['id'] + '/fanart?scale=' + str(xbmcgui.Window().getWidth()) })
 
                 xbmcplugin.addDirectoryItem(handle=addonHandle,
                                             url=url,
@@ -331,7 +331,7 @@ def parseMediaElements(elements, altTitle):
                 if 'description' in element:
                     item.setInfo('music', { 'comment': element['description'] })
 
-                item.setArt({ 'icon' : 'DefaultAudio.png', 'thumb': sms_settings['serverUrl'] + ':' + sms_settings['serverPort'] + '/image/' + element['id'] + '/cover', 'poster': sms_settings['serverUrl'] + ':' + sms_settings['serverPort'] + '/image/' + element['id'] + '/cover', 'fanart' : sms_settings['serverUrl'] + ':' + sms_settings['serverPort'] + '/image/' + element['id'] + '/fanart?scale=' + str(xbmcgui.Window().getWidth()) })
+                item.setArt({ 'icon' : 'DefaultAudio.png', 'thumb': sms_settings['serverUrl'] + ':' + str(sms_settings['serverPort']) + '/image/' + element['id'] + '/cover', 'poster': sms_settings['serverUrl'] + ':' + str(sms_settings['serverPort']) + '/image/' + element['id'] + '/cover', 'fanart' : sms_settings['serverUrl'] + ':' + str(sms_settings['serverPort']) + '/image/' + element['id'] + '/fanart?scale=' + str(xbmcgui.Window().getWidth()) })
 
                 xbmcplugin.addDirectoryItem(handle=addonHandle,
                                             url=url,
@@ -360,7 +360,7 @@ def parseMediaElements(elements, altTitle):
                     if 'year' in element:
                         item.setInfo('music', { 'year': str(element['year']) })
                 
-                item.setArt({ 'icon' : 'DefaultFolder.png', 'thumb': sms_settings['serverUrl'] + ':' + sms_settings['serverPort'] + '/image/' + element['id'] + '/cover', 'poster': sms_settings['serverUrl'] + ':' + sms_settings['serverPort'] + '/image/' + element['id'] + '/cover', 'fanart' : sms_settings['serverUrl'] + ':' + sms_settings['serverPort'] + '/image/' + element['id'] + '/fanart?scale=' + str(xbmcgui.Window().getWidth()) })
+                item.setArt({ 'icon' : 'DefaultFolder.png', 'thumb': sms_settings['serverUrl'] + ':' + str(sms_settings['serverPort']) + '/image/' + element['id'] + '/cover', 'poster': sms_settings['serverUrl'] + ':' + str(sms_settings['serverPort']) + '/image/' + element['id'] + '/cover', 'fanart' : sms_settings['serverUrl'] + ':' + str(sms_settings['serverPort']) + '/image/' + element['id'] + '/fanart?scale=' + str(xbmcgui.Window().getWidth()) })
 
                 xbmcplugin.addDirectoryItem(handle=addonHandle,
                                             url=url,
@@ -372,10 +372,10 @@ def parseMediaElements(elements, altTitle):
 def playVideo():
     id = arguments.get('id', None)[0]
     element = sms_client.getMediaElement(id)
-    url = sms_settings['serverUrl'] + ':' + sms_settings['serverPort'] + '/stream/' + str(session) + '/' + str(id)
+    url = sms_settings['serverUrl'] + ':' + str(sms_settings['serverPort']) + '/stream/' + str(session) + '/' + str(id)
 
     item = xbmcgui.ListItem(element['title'], path=url)
-    item.setArt({ 'icon' : 'DefaultVideo.png', 'thumb': sms_settings['serverUrl'] + ':' + sms_settings['serverPort'] + '/image/' + element['id'] + '/thumbnail', 'poster': sms_settings['serverUrl'] + ':' + sms_settings['serverPort'] + '/image/' + element['id'] + '/cover', 'fanart' : sms_settings['serverUrl'] + ':' + sms_settings['serverPort'] + '/image/' + element['id'] + '/fanart?scale=' + str(xbmcgui.Window().getWidth()) })
+    item.setArt({ 'icon' : 'DefaultVideo.png', 'thumb': sms_settings['serverUrl'] + ':' + str(sms_settings['serverPort']) + '/image/' + element['id'] + '/thumbnail', 'poster': sms_settings['serverUrl'] + ':' + str(sms_settings['serverPort']) + '/image/' + element['id'] + '/cover', 'fanart' : sms_settings['serverUrl'] + ':' + str(sms_settings['serverPort']) + '/image/' + element['id'] + '/fanart?scale=' + str(xbmcgui.Window().getWidth()) })
     item.setInfo('video', { 'title': element['title'] })
 
     if 'rating' in element:
@@ -418,11 +418,11 @@ def playVideo():
 def playAudio():
     id = arguments.get('id', None)[0]
     element = sms_client.getMediaElement(id)
-    url = sms_settings['serverUrl'] + ':' + sms_settings['serverPort'] + '/stream/' + str(session) + '/' + str(id)
+    url = sms_settings['serverUrl'] + ':' + str(sms_settings['serverPort']) + '/stream/' + str(session) + '/' + str(id)
     
     item = xbmcgui.ListItem(element['title'], path=url)
     item.setInfo('music', { 'title': element['title'] })
-    item.setArt({ 'icon' : 'DefaultAudio.png', 'thumb': sms_settings['serverUrl'] + ':' + sms_settings['serverPort'] + '/image/' + str(id) + '/cover', 'fanart' : sms_settings['serverUrl'] + ':' + sms_settings['serverPort'] + '/image/' + element['id'] + '/fanart?scale=' + str(xbmcgui.Window().getWidth()) })
+    item.setArt({ 'icon' : 'DefaultAudio.png', 'thumb': sms_settings['serverUrl'] + ':' + str(sms_settings['serverPort']) + '/image/' + str(id) + '/cover', 'fanart' : sms_settings['serverUrl'] + ':' + str(sms_settings['serverPort']) + '/image/' + element['id'] + '/fanart?scale=' + str(xbmcgui.Window().getWidth()) })
         
     if 'trackNumber' in element:
         item.setInfo('music', { 'tracknumber': element['trackNumber'] })
@@ -464,16 +464,16 @@ def playAudio():
 
 if __name__ == '__main__':
         # Settings
-    sms_settings = {'serverUrl': addon.getSetting('serverUrl'), \
-                    'serverPort': addon.getSetting('serverPort'), \
-                    'username': addon.getSetting('username'), \
-                    'password': addon.getSetting('password'), \
-                    'audioQuality': addon.getSetting('audioQuality')[:1], \
-                    'videoQuality': addon.getSetting('videoQuality')[:1], \
-                    'maxSampleRate': addon.getSetting('maxSampleRate'), \
-                    'multichannel': addon.getSetting('multichannel'), \
-                    'directPlay': addon.getSetting('directPlay'),
-                    'servicePort': addon.getSetting('servicePort')}
+    sms_settings = {'serverUrl': addon.getSettingString('serverUrl'), \
+                    'serverPort': addon.getSettingInt('serverPort'), \
+                    'username': addon.getSettingString('username'), \
+                    'password': addon.getSettingString('password'), \
+                    'audioQuality': addon.getSettingInt('audioQuality'), \
+                    'videoQuality': addon.getSettingInt('videoQuality'), \
+                    'maxSampleRate': addon.getSettingString('maxSampleRate'), \
+                    'multichannel': addon.getSettingBool('multichannel'), \
+                    'directPlay': addon.getSettingBool('directPlay'),
+                    'servicePort': addon.getSettingInt('servicePort')}
 
     # XBMC Plugin URLs
     addonUrl = sys.argv[0] + sys.argv[2]
