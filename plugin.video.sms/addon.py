@@ -59,7 +59,7 @@ def getMediaElementType(type):
 def mainMenu():
     # Music
     url = buildUrl({'content_type': 'audio'})
-    item = xbmcgui.ListItem('Music')
+    item = xbmcgui.ListItem(addon.getLocalizedString(30200))
     item.setArt({ 'icon' : 'DefaultAudio.png' })
     xbmcplugin.addDirectoryItem(handle=addonHandle,
                                 url=url,
@@ -68,7 +68,7 @@ def mainMenu():
 
     # Videos
     url = buildUrl({'content_type': 'video'})
-    item = xbmcgui.ListItem('Videos')
+    item = xbmcgui.ListItem(addon.getLocalizedString(30201))
     item.setArt({ 'icon' : 'DefaultVideo.png' })
     xbmcplugin.addDirectoryItem(handle=addonHandle,
                                 url=url,
@@ -80,7 +80,7 @@ def mainMenu():
 def videoMenu():
     # Media Browser
     url = buildUrl({'mode': 'media_browser', 'content_type': contentType[0]})
-    item = xbmcgui.ListItem('Media Browser')
+    item = xbmcgui.ListItem(addon.getLocalizedString(30202))
     item.setArt({ 'icon' : 'DefaultFolder.png' })
     xbmcplugin.addDirectoryItem(handle=addonHandle,
                                 url=url,
@@ -89,7 +89,7 @@ def videoMenu():
 
     # Recently Played
     url = buildUrl({'mode': 'recently_played', 'content_type': contentType[0]})
-    item = xbmcgui.ListItem('Recently Played')
+    item = xbmcgui.ListItem(addon.getLocalizedString(30203))
     item.setArt({ 'icon' : 'DefaultFolder.png' })
     xbmcplugin.addDirectoryItem(handle=addonHandle,
                                 url=url,
@@ -98,7 +98,7 @@ def videoMenu():
 
     # Recently Added
     url = buildUrl({'mode': 'recently_added', 'content_type': contentType[0]})
-    item = xbmcgui.ListItem('Recently Added')
+    item = xbmcgui.ListItem(addon.getLocalizedString(30204))
     item.setArt({ 'icon' : 'DefaultFolder.png' })
     xbmcplugin.addDirectoryItem(handle=addonHandle,
                                 url=url,
@@ -110,7 +110,7 @@ def videoMenu():
 def audioMenu():
     # Media Browser
     url = buildUrl({'mode': 'media_browser', 'content_type': contentType[0]})
-    item = xbmcgui.ListItem('Media Browser')
+    item = xbmcgui.ListItem(addon.getLocalizedString(30202))
     item.setArt({ 'icon' : 'DefaultFolder.png' })
     xbmcplugin.addDirectoryItem(handle=addonHandle,
                                 url=url,
@@ -119,7 +119,7 @@ def audioMenu():
 
     # Recently Played
     url = buildUrl({'mode': 'recently_played', 'content_type': contentType[0]})
-    item = xbmcgui.ListItem('Recently Played')
+    item = xbmcgui.ListItem(addon.getLocalizedString(30203))
     item.setArt({ 'icon' : 'DefaultFolder.png' })
     xbmcplugin.addDirectoryItem(handle=addonHandle,
                                 url=url,
@@ -128,7 +128,7 @@ def audioMenu():
 
     # Recently Added
     url = buildUrl({'mode': 'recently_added', 'content_type': contentType[0]})
-    item = xbmcgui.ListItem('Recently Added')
+    item = xbmcgui.ListItem(addon.getLocalizedString(30204))
     item.setArt({ 'icon' : 'DefaultFolder.png' })
     xbmcplugin.addDirectoryItem(handle=addonHandle,
                                 url=url,
@@ -137,7 +137,7 @@ def audioMenu():
                                 
     # Playlists
     url = buildUrl({'mode': 'playlists', 'content_type': contentType[0]})
-    item = xbmcgui.ListItem('Playlists')
+    item = xbmcgui.ListItem(addon.getLocalizedString(30205))
     item.setArt({ 'icon' : 'DefaultPlaylist.png' })
     xbmcplugin.addDirectoryItem(handle=addonHandle,
                                 url=url,

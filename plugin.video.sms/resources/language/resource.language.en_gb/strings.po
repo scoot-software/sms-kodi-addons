@@ -111,6 +111,10 @@ msgctxt "#30100"
 msgid "Scoot Media Streamer"
 msgstr ""
 
+#
+# Error Messages
+#
+
 msgctxt "#30101"
 msgid "There was an error fetching recently added media from the server."
 msgstr ""
@@ -129,4 +133,32 @@ msgstr ""
 
 msgctxt "#30105"
 msgid "There was an error fetching playlists from the server."
+msgstr ""
+
+#
+# List Items
+#
+
+msgctxt "#30200"
+msgid "Music"
+msgstr ""
+
+msgctxt "#30201"
+msgid "Videos"
+msgstr ""
+
+msgctxt "#30202"
+msgid "Media Browser"
+msgstr ""
+
+msgctxt "#30203"
+msgid "Recently Played"
+msgstr ""
+
+msgctxt "#30204"
+msgid "Recently Added"
+msgstr ""
+
+msgctxt "#30205"
+msgid "Playlists"
 msgstr ""
