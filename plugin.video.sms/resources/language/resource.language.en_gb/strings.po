@@ -82,3 +82,31 @@ msgstr ""
 msgctxt "#30031"
 msgid "Port"
 msgstr ""
+
+#
+# UI
+#
+
+msgctxt "#30100"
+msgid "Scoot Media Streamer"
+msgstr ""
+
+msgctxt "#30101"
+msgid "There was an error fetching recently added media from the server."
+msgstr ""
+
+msgctxt "#30102"
+msgid "There was an error fetching recently played media from the server."
+msgstr ""
+
+msgctxt "#30103"
+msgid "There was an error fetching media folders from the server."
+msgstr ""
+
+msgctxt "#30104"
+msgid "There was an error fetching content from the server."
+msgstr ""
+
+msgctxt "#30105"
+msgid "There was an error fetching playlists from the server."
+msgstr ""

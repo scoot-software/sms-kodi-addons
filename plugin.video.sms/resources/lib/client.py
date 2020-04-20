@@ -26,7 +26,7 @@ class RESTClient(object):
             data = response.json()
             return data
         except requests.exceptions.RequestException:
-            xbmcgui.Dialog().notification('mediaStreamer', 'There was an error fetching recently added media from the server.', xbmcgui.NOTIFICATION_ERROR, 5000)
+            xbmcgui.Dialog().notification("30100", "30101", xbmcgui.NOTIFICATION_ERROR, 5000)
 
     def getRecentlyPlayedElements(self, type):
         try:
@@ -34,7 +34,7 @@ class RESTClient(object):
             data = response.json()
             return data
         except requests.exceptions.RequestException:
-            xbmcgui.Dialog().notification('mediaStreamer', 'There was an error fetching recently played media from the server.', xbmcgui.NOTIFICATION_ERROR, 5000)
+            xbmcgui.Dialog().notification("30100", "30102", xbmcgui.NOTIFICATION_ERROR, 5000)
 
     def getMediaFolders(self):
         try:
@@ -42,7 +42,7 @@ class RESTClient(object):
             data = response.json()
             return data
         except requests.exceptions.RequestException:
-            xbmcgui.Dialog().notification('mediaStreamer', 'There was an error fetching media folders from the server.', xbmcgui.NOTIFICATION_ERROR, 5000)
+            xbmcgui.Dialog().notification("30100", "30103", xbmcgui.NOTIFICATION_ERROR, 5000)
 
     def getMediaFolderContents(self, id):
         try:
@@ -50,7 +50,7 @@ class RESTClient(object):
             data = response.json()
             return data
         except requests.exceptions.RequestException:
-            xbmcgui.Dialog().notification('mediaStreamer', 'There was an error fetching content from the server.', xbmcgui.NOTIFICATION_ERROR, 5000)
+            xbmcgui.Dialog().notification("30100", "30104", xbmcgui.NOTIFICATION_ERROR, 5000)
 
     def getDirectoryElementContents(self, id):
         try:
@@ -58,7 +58,7 @@ class RESTClient(object):
             data = response.json()
             return data
         except requests.exceptions.RequestException:
-            xbmcgui.Dialog().notification('mediaStreamer', 'There was an error fetching content from the server.', xbmcgui.NOTIFICATION_ERROR, 5000)
+            xbmcgui.Dialog().notification("30100", "30104", xbmcgui.NOTIFICATION_ERROR, 5000)
 
     def getMediaElement(self, id):
         try:
@@ -66,7 +66,7 @@ class RESTClient(object):
             data = response.json()
             return data
         except requests.exceptions.RequestException:
-            xbmcgui.Dialog().notification('mediaStreamer', 'There was an error fetching content from the server.', xbmcgui.NOTIFICATION_ERROR, 5000)
+            xbmcgui.Dialog().notification("30100", "30104", xbmcgui.NOTIFICATION_ERROR, 5000)
 
     def getPlaylists(self):
         try:
@@ -74,7 +74,7 @@ class RESTClient(object):
             data = response.json()
             return data
         except requests.exceptions.RequestException:
-            xbmcgui.Dialog().notification('mediaStreamer', 'There was an error fetching playlists from the server.', xbmcgui.NOTIFICATION_ERROR, 5000)
+            xbmcgui.Dialog().notification("30100", "30105", xbmcgui.NOTIFICATION_ERROR, 5000)
             
     def getPlaylistContents(self, id):
         try:
@@ -82,7 +82,7 @@ class RESTClient(object):
             data = response.json()
             return data
         except requests.exceptions.RequestException:
-            xbmcgui.Dialog().notification('mediaStreamer', 'There was an error fetching content from the server.', xbmcgui.NOTIFICATION_ERROR, 5000)
+            xbmcgui.Dialog().notification("30100", "30104", xbmcgui.NOTIFICATION_ERROR, 5000)
     
     def endJob(self, sid, id):
         response = requests.delete(self.settings['serverUrl'] + ':' + self.settings['serverPort']+ '/session/end/' + str(sid) + '/' + str(id), auth=(self.settings['username'], self.settings['password']))
@@ -91,13 +91,13 @@ class RESTClient(object):
         try:
             response = requests.post(self.settings['serverUrl'] + ':' + self.settings['serverPort'] + '/session/add?id=' + str(id), json=profile, auth=(self.settings['username'], self.settings['password']))
         except requests.exceptions.RequestException:
-            xbmcgui.Dialog().notification('mediaStreamer', 'There was an error fetching content from the server.', xbmcgui.NOTIFICATION_ERROR, 5000)
+            xbmcgui.Dialog().notification("30100", "30104", xbmcgui.NOTIFICATION_ERROR, 5000)
             
     def updateClientProfile(self, id, profile):
         try:
             response = requests.post(self.settings['serverUrl'] + ':' + self.settings['serverPort'] + '/session/update/' + str(id), json=profile, auth=(self.settings['username'], self.settings['password']))
         except requests.exceptions.RequestException:
-            xbmcgui.Dialog().notification('mediaStreamer', 'There was an error fetching content from the server.', xbmcgui.NOTIFICATION_ERROR, 5000)
+            xbmcgui.Dialog().notification("30100", "30104", xbmcgui.NOTIFICATION_ERROR, 5000)
 
     def endSession(self, id):
         response = requests.delete(self.settings['serverUrl'] + ':' + self.settings['serverPort'] + '/session/end/' + str(id), auth=(self.settings['username'], self.settings['password']))
