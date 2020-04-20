@@ -53,8 +53,8 @@ class Service(object):
             'serverPort': addon.getSetting('serverPort'), \
             'username': addon.getSetting('username'), \
             'password': addon.getSetting('password'), \
-            'audioQuality': addon.getSetting('audioQuality')[:1], \
-            'videoQuality': addon.getSetting('videoQuality')[:1], \
+            'audioQuality': addon.getSetting('audioQuality'), \
+            'videoQuality': addon.getSetting('videoQuality'), \
             'maxSampleRate': addon.getSetting('maxSampleRate'), \
             'multichannel': addon.getSetting('multichannel'), \
             'directPlay': addon.getSetting('directPlay'),
@@ -116,8 +116,8 @@ class Service(object):
             'serverPort': addon.getSetting('serverPort'), \
             'username': addon.getSetting('username'), \
             'password': addon.getSetting('password'), \
-            'audioQuality': addon.getSetting('audioQuality')[:1], \
-            'videoQuality': addon.getSetting('videoQuality')[:1], \
+            'audioQuality': addon.getSetting('audioQuality'), \
+            'videoQuality': addon.getSetting('videoQuality'), \
             'maxSampleRate': addon.getSetting('maxSampleRate'), \
             'multichannel': addon.getSetting('multichannel'), \
             'directPlay': addon.getSetting('directPlay'),
