@@ -135,6 +135,14 @@ msgctxt "#30105"
 msgid "There was an error fetching playlists from the server."
 msgstr ""
 
+msgctxt "#30106"
+msgid "There was an error initialising a new session."
+msgstr ""
+
+msgctxt "#30107"
+msgid "There was an error updating the client profile."
+msgstr ""
+
 #
 # List Items
 #
