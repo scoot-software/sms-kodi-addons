@@ -10,13 +10,11 @@
   </extension>
   <extension point="xbmc.service" library="service.py"/>
   <extension point="xbmc.addon.metadata">
-    <summary lang="en">The official Kodi addon for Scoot Media Streamer.</summary>
-    <description lang="en">Scoot Media Streamer allows you to stream media from any SMS Server available on the internet. If you have a media server at home with SMS Server installed you can stream your media anywhere to a number of devices. This is the official Kodi addon which allows you to stream media from your SMS Server to any Kodi compatable device.</description>
-    <disclaimer lang="en">This plugin requires an instance of SMS Server to be available remotely or on the local network.</disclaimer>
-    <language>en</language>
+    <summary lang="en_GB">The official Kodi addon for Scoot Media Streamer.</summary>
+    <description lang="en_GB">Scoot Media Streamer allows you to stream media from any SMS Server available on the internet. If you have a media server at home with SMS Server installed you can stream your media anywhere to a number of devices. This is the official Kodi addon which allows you to stream media from your SMS Server to any Kodi compatable device.</description>
+    <disclaimer lang="en_GB">This plugin requires an instance of SMS Server to be available remotely or on the local network.</disclaimer>
     <platform>all</platform>
     <license>GPL-3.0-only</license>
-    <forum></forum>
     <website>https://github.com/scoot-software</website>
     <email>scoot.software@gmail.com</email>
     <source>https://github.com/scoot-software/sms-kodi-addons</source>
