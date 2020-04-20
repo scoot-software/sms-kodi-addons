@@ -15,7 +15,7 @@
     <disclaimer lang="en">This plugin requires an instance of SMS Server to be available remotely or on the local network.</disclaimer>
     <language>en</language>
     <platform>all</platform>
-    <license>MIT</license>
+    <license>GPL-3.0-only</license>
     <forum></forum>
     <website>https://github.com/scoot-software</website>
     <email>scoot.software@gmail.com</email>
