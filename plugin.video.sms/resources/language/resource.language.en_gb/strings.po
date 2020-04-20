@@ -82,3 +82,91 @@ msgstr ""
 msgctxt "#30031"
 msgid "Port"
 msgstr ""
+
+#
+# Audio Quality
+#
+
+msgctxt "#30040"
+msgid "Low"
+msgstr ""
+
+msgctxt "#30041"
+msgid "Medium"
+msgstr ""
+
+msgctxt "#30042"
+msgid "High"
+msgstr ""
+
+msgctxt "#30043"
+msgid "Lossless"
+msgstr ""
+
+#
+# UI
+#
+
+msgctxt "#30100"
+msgid "Scoot Media Streamer"
+msgstr ""
+
+#
+# Error Messages
+#
+
+msgctxt "#30101"
+msgid "There was an error fetching recently added media from the server."
+msgstr ""
+
+msgctxt "#30102"
+msgid "There was an error fetching recently played media from the server."
+msgstr ""
+
+msgctxt "#30103"
+msgid "There was an error fetching media folders from the server."
+msgstr ""
+
+msgctxt "#30104"
+msgid "There was an error fetching content from the server."
+msgstr ""
+
+msgctxt "#30105"
+msgid "There was an error fetching playlists from the server."
+msgstr ""
+
+msgctxt "#30106"
+msgid "There was an error initialising a new session."
+msgstr ""
+
+msgctxt "#30107"
+msgid "There was an error updating the client profile."
+msgstr ""
+
+#
+# List Items
+#
+
+msgctxt "#30200"
+msgid "Music"
+msgstr ""
+
+msgctxt "#30201"
+msgid "Videos"
+msgstr ""
+
+msgctxt "#30202"
+msgid "Media Browser"
+msgstr ""
+
+msgctxt "#30203"
+msgid "Recently Played"
+msgstr ""
+
+msgctxt "#30204"
+msgid "Recently Added"
+msgstr ""
+
+msgctxt "#30205"
+msgid "Playlists"
+msgstr ""
