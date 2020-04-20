@@ -288,7 +288,7 @@ def parseMediaElements(elements, altTitle):
                     if 'collection' in element:
                         item.setInfo('video', { 'set': element['collection'] })
 
-                item.setArt({ 'icon' : 'DefaultFolder.png', 'poster': sms_settings['serverUrl'] + ':' + str(sms_settings['serverPort']) + '/image/' + element['id'] + '/cover', 'fanart' : sms_settings['serverUrl'] + ':' + str(sms_settings['serverPort']) + '/image/' + element['id'] + '/fanart?scale=' + str(xbmcgui.Window().getWidth()) })
+                item.setArt({ 'icon' : 'DefaultFolder.png', 'thumb': sms_settings['serverUrl'] + ':' + str(sms_settings['serverPort']) + '/image/' + element['id'] + '/cover', 'poster': sms_settings['serverUrl'] + ':' + str(sms_settings['serverPort']) + '/image/' + element['id'] + '/cover', 'fanart' : sms_settings['serverUrl'] + ':' + str(sms_settings['serverPort']) + '/image/' + element['id'] + '/fanart?scale=' + str(xbmcgui.Window().getWidth()) })
 
                 xbmcplugin.addDirectoryItem(handle=addonHandle,
                                             url=url,
