@@ -84,6 +84,26 @@ msgid "Port"
 msgstr ""
 
 #
+# Audio Quality
+#
+
+msgctxt "#30040"
+msgid "Low"
+msgstr ""
+
+msgctxt "#30041"
+msgid "Medium"
+msgstr ""
+
+msgctxt "#30042"
+msgid "High"
+msgstr ""
+
+msgctxt "#30043"
+msgid "Lossless"
+msgstr ""
+
+#
 # UI
 #
 
