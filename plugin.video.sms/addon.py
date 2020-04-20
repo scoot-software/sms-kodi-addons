@@ -187,6 +187,12 @@ def directoryElementContents():
     parseMediaElements(elements, False)
     
 def parseMediaElements(elements, altTitle):
+    if elements is None:
+        return
+
+    if len(elements) == 0:
+        return
+        
     total = len(elements)
 
     for element in elements:
